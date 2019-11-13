@@ -1,0 +1,17 @@
+.card-container {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    margin-top: 30px;
+}
+.card-title{
+    color: #3C4858;
+    margin-top: -10px;
+    min-height: auto;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 300;
+    margin-bottom: 3px;
+    text-decoration: none;
+    line-height: 0.8em;
+    font-size: 1.3em;
+    padding-left: 1em;
+
+}

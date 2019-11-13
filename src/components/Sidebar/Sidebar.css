@@ -1,0 +1,58 @@
+.side-head {
+    position: relative;
+    height: 60px;
+
+    margin: 20px auto;
+    line-height: 60px;
+    text-align: center;
+    font-size: 24px;
+    vertical-align: middle;
+    z-index: 4;
+}
+
+.side-bg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background-size: cover;
+    background-position: center center;
+    z-index: 3;
+}
+
+.side-head .left {
+    font-size: 18px;
+    text-align: left;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    padding-left: 20px;
+    color: white;
+}
+
+.side-head .icon {
+    vertical-align: middle;
+    font-size: 30px;
+    color: white;
+}
+
+ul.sidebar-li {
+    width: 100%;
+    padding: 0;
+    z-index: 5;
+}
+
+ul.sidebar-li li {
+    position: relative;
+    padding: 0;
+    z-index: 5;
+    margin-top: 25px;
+}
+
+
+ul.sidebar-li button {
+    margin: auto;
+}
+
+.sidebar-li .active {
+    background: #00acc1 !important;
+}
