@@ -81,6 +81,7 @@ class UserInfo extends React.Component {
                 key: 'name',
                 sorter: (a, b) => a.name.length - b.name.length,
                 ellipsis: true,
+                onFilter:(value,record)=>record['name'].include(value)
             },
             {
                 title: '部门',

@@ -42,13 +42,13 @@ class Transfer extends React.Component {
             users: res.data
         })
     }
+
     handleReset = clearFilters => {
         clearFilters();
         this.setState({searchText: ''});
     };
     handleSearch = (selectedKeys, confirm) => {
         confirm();
-
         this.setState({searchText: selectedKeys[0]});
     };
     getColumnSearchProps = dataIndex => ({
@@ -84,10 +84,10 @@ class Transfer extends React.Component {
             <Icon type="search" style={{color: filtered ? '#ff3a38' : undefined}}/>
         ),
         onFilter: (value, record) => {
-            return record[dataIndex] && record[dataIndex]
+            return record[dataIndex]
                 .toString().trim()
                 .toLowerCase()
-                .includes(value.toLowerCase()) || false
+                .includes(value.toLowerCase())
 
         },
         onFilterDropdownVisibleChange: visible => {
@@ -181,15 +181,15 @@ class Transfer extends React.Component {
                 title: '用户名',
                 dataIndex: 'name',
                 key: 'name',
-                ...this.getColumnSearchProps('User.name'),
-                sorter: this.getSorter("User.name")
+                ...this.getColumnSearchProps('name'),
+                sorter: this.getSorter("name")
             },
             {
                 title: '所在部门',
                 dataIndex: 'department.name',
                 key: 'department',
-                ...this.getColumnSearchProps('User.name'),
-                sorter: this.getSorter("User.name")
+                ...this.getColumnSearchProps('department.name'),
+                sorter: this.getSorter("department.name")
             }
         ]
         const state = this.state['activeDevice'] || {};
@@ -209,7 +209,10 @@ class Transfer extends React.Component {
             justifyContent: "space-between",
             position: "relative"
         }}>
-            <Table style={{flex: "0 0 40%"}} dataSource={this.props.list} columns={columns}
+            <Table style={{
+                flex: "0 0 40%",
+                boxShadow: "0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)"
+            }} dataSource={this.props.list} columns={columns}
                    onRow={function (record) {
                        return {
                            onClick() {
@@ -250,12 +253,12 @@ class Transfer extends React.Component {
                     alignItems: "center",
                     justifyContent: "center"
                 }}>
-                    <Fab aria-label={"转移"} style={{background: "linear-gradient(60deg, #ab47bc, #8e24aa)"}}>
+                    <Fab aria-label={"转移"} style={{background: "linear-gradient(60deg, #ab47bc, #8e24aa)",position:"relative",left:"-50%"}}>
                         <SendIcon style={{fontSize: "48px", color: "#aaa"}} onClick={this.handleActionButtonClick}/>
                     </Fab>
 
                 </div>
-                <Table style={{flex: "0 0 70%"}}
+                <Table style={{flex: "0 0 70%",boxShadow:"0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)"}}
                        onRow={function (record) {
                            return {
                                onClick(e) {
