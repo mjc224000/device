@@ -64,9 +64,9 @@ export class FilerAndSearchTable extends React.Component {
         console.log(columns, "columns");
         return (
             <div>
-                <div className="table-operations">
+                <div className="table-operations" style={{paddingRight:"20px"}}>
                 </div>
-                <Table columns={columns} dataSource={this.props.data} onChange={this.handleChange}/>
+                <Table style={{boxShadow:"0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)",}} columns={columns} dataSource={this.props.data} onChange={this.handleChange}/>
             </div>
         );
     }
