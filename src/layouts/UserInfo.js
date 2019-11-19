@@ -93,7 +93,6 @@ class UserInfo extends React.Component {
                     return {text: item, value: item}
                 })
             },
-
         ];
         return (
             <div style={{display: "flex", justifyContent: "flex-start"}}>

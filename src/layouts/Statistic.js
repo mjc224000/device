@@ -1,14 +1,15 @@
 import React from "react";
 import {StatisticCard} from "../components/statisticCard/Card1";
 import {getGroupCount} from "../ado";
+import {CoreCard} from '../components/coreCard';
 import "./App.css"
+
 export class Statistic extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: [],
             number: []
-
         }
     }
 
@@ -30,10 +31,15 @@ export class Statistic extends React.Component {
 
     render() {
         const {name, number} = this.state;
-        console.log(name, number)
+
         return (<>
-               <h3 className={'layout-title'} >统计报表</h3>
+                <h3 className={'layout-title'}>统计报表</h3>
                 <div style={{display: "flex", justifyContent: "center", height: "300px"}}>
+                    <CoreCard/>
+                </div>
+
+                <div style={{display: "flex", justifyContent: "center", height: "300px"}}>
+
                     <StatisticCard name={name} number={number} style={{flex: "0 0 30%"}}/>
                 </div>
             </>

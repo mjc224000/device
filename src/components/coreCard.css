@@ -1,0 +1,26 @@
+.core-card {
+    height: 137px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    position: relative;
+    max-width: 380px;
+    flex-grow: 1;
+    display: flex;
+
+}
+
+.core-thumb-right {
+    flex-grow: 1;
+    max-width: 40%;
+    overflow: auto;
+}
+
+.core-card-thumb {
+    border-radius: 5px;
+    width: 88px;
+    height: 88px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(255, 152, 0, .4);
+    background: linear-gradient(60deg, #fb8c00, #ffa726);
+    position: relative;
+    top: -20px;
+    left: 20px;
+}

@@ -164,10 +164,10 @@ class BasicInformation extends React.Component {
             <>
                 <Breadcrumb style={{paddingLeft: "50px", paddingTop: "20px"}}>
                     <Item><Link to={"/basic"} style={{color: !this.state.isUser ? "#6666ff" : "#aaaaaa"}}
-                                onClick={() => this.setState({isUser: false})}>设备信息</Link></Item>
+                                onClick={() => this.setState({isUser: false})}>添加设备</Link></Item>
                     <Item><Link to={"/basic/user"}
                                 style={{color: this.state.isUser ? "#6666ff" : "#aaaaaa"}}
-                                onClick={() => this.setState({isUser: true})}>用户信息</Link></Item>
+                                onClick={() => this.setState({isUser: true})}>添加用户</Link></Item>
                 </Breadcrumb>
                 <div style={{margin: "10px 20px 80px"}}>
                 </div>

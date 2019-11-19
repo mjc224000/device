@@ -36,14 +36,7 @@ export class FilerAndSearchTable extends React.Component {
         });
     };
 
-    setAgeSort = () => {
-        this.setState({
-            sortedInfo: {
-                order: 'descend',
-                columnKey: 'age',
-            },
-        });
-    };
+
     mapPropsToColumn = () => {
         let {sortedInfo, filteredInfo} = this.state;
         sortedInfo = sortedInfo || {};

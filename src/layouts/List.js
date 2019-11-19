@@ -183,7 +183,15 @@ class List extends React.Component {
                 ...this.getColumnSearchProps('state'),
             },
         ]
-        const computerColumns = [{
+        const computerColumns = [
+            {
+                title: '设备编号',
+                dataIndex: 'device_code',
+                key: 'device_code',
+                width: '10%',
+                ...this.getColumnSearchProps('device_code'),
+            },
+            {
             title: '品牌',
             dataIndex: 'brand',
             key: 'brand',

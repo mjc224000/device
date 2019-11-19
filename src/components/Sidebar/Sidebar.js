@@ -64,7 +64,7 @@ export class CoreSider extends React.Component {
                         <Button style={ButtonStyle}
                                 className={"/rc" === currentName ? "active" : ""}
                                 onClick={() => this.handleRouteChange('/rc')}>
-                            <DateRangeIcon></DateRangeIcon> <span>收发管理 </span>
+                            <DateRangeIcon></DateRangeIcon> <span>耗材管理 </span>
                         </Button>
                     </li>
                     <li>
