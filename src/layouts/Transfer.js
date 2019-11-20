@@ -126,9 +126,7 @@ class Transfer extends React.Component {
             this.setState({isModalShow: false});
             return
         }
-
         const {activeUser, activeDevice} = this.state;
-
         if (activeUser && activeDevice) {
             this.setState({isModalShow: true})
         }
@@ -224,7 +222,6 @@ class Transfer extends React.Component {
                                        return
                                    }
                                }
-
                                _this.setState({
                                    activeDevice: record,
                                })
@@ -253,12 +250,19 @@ class Transfer extends React.Component {
                     alignItems: "center",
                     justifyContent: "center"
                 }}>
-                    <Fab aria-label={"转移"} style={{background: "linear-gradient(60deg, #ab47bc, #8e24aa)",position:"relative",left:"-50%"}}>
+                    <Fab aria-label={"转移"} style={{
+                        background: "linear-gradient(60deg, #ab47bc, #8e24aa)",
+                        position: "relative",
+                        left: "-50%"
+                    }}>
                         <SendIcon style={{fontSize: "48px", color: "#aaa"}} onClick={this.handleActionButtonClick}/>
                     </Fab>
 
                 </div>
-                <Table style={{flex: "0 0 70%",boxShadow:"0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)"}}
+                <Table style={{
+                    flex: "0 0 70%",
+                    boxShadow: "0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)"
+                }}
                        onRow={function (record) {
                            return {
                                onClick(e) {
