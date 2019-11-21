@@ -8,6 +8,7 @@ import CachedIcon from '@material-ui/icons/Cached';
 import FormatAlignLeftIcon from '@material-ui/icons/FormatAlignLeft';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import './Sidebar.css'
 
 const {Header, Footer, Sider, Content} = Layout;
@@ -83,6 +84,10 @@ export class CoreSider extends React.Component {
                                 className={"/basic" === currentName ? "active" : ""}
                                 onClick={() => this.handleRouteChange('/basic')}>
                     <MenuBookIcon></MenuBookIcon> <span>基础信息</span> </Button></li>
+                    <li><Button style={ButtonStyle}
+                                className={"/transferList" === currentName ? "active" : ""}
+                                onClick={() => this.handleRouteChange('/transferList')}>
+                        <ImportContactsIcon/> <span>领用记录</span> </Button></li>
                 </ul>
                 <div style={{backgroundImage: `url(${imgurl})`}} className={"side-bg"}></div>
 
