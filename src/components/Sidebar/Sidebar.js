@@ -85,8 +85,8 @@ export class CoreSider extends React.Component {
                                 onClick={() => this.handleRouteChange('/basic')}>
                     <MenuBookIcon></MenuBookIcon> <span>基础信息</span> </Button></li>
                     <li><Button style={ButtonStyle}
-                                className={"/transferList" === currentName ? "active" : ""}
-                                onClick={() => this.handleRouteChange('/transferList')}>
+                                className={"/tft" === currentName ? "active" : ""}
+                                onClick={() => this.handleRouteChange('/tft')}>
                         <ImportContactsIcon/> <span>领用记录</span> </Button></li>
                 </ul>
                 <div style={{backgroundImage: `url(${imgurl})`}} className={"side-bg"}></div>

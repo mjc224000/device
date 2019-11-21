@@ -9,6 +9,7 @@ import {Layout} from "antd";
 import {CoreSider} from './components/Sidebar/Sidebar';
 import BasicInformation from "./layouts/BasicInformation";
 import {SendAndReceiving} from "./layouts/SendandReceiving";
+import {TransferTable} from './layouts/transferList'
 import 'antd/dist/antd.min.css'
 import {Provider} from 'react-redux';
 import {store} from "./redux/store";
@@ -39,9 +40,11 @@ function App(props) {
                         <Route path={"/list"} component={List}/>
                         <Route path={"/statistic"} component={Statistic}/>
                         <Route path={"/transfer"} component={Transfer}/>
-                        <Route path={"/basic"} component={BasicInformation}></Route>
-                        <Route path={"/rc"} component={SendAndReceiving}></Route>
+                        <Route path={"/basic"} component={BasicInformation}/>
+                        <Route path={"/rc"} component={SendAndReceiving}/>
+                        <Route path={"/tft"} component={TransferTable}/>
                         <Route path={"/"} component={Statistic}/>
+
                     </Switch>
                 </Content>
             </Layout>
