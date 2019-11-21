@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import {createBrowserHistory} from "history";
 import {Router, Route, Switch, Redirect} from "react-router-dom";
@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
 const hist = createBrowserHistory();
 
 function App(props) {
-    useEffect(()=>{
+    useEffect(() => {
         props.fetchList();
     })
     return (
@@ -36,12 +36,12 @@ function App(props) {
             <Layout>
                 <Content>
                     <Switch>
-                        <Route exact path={"/"} component={List}/>
                         <Route path={"/list"} component={List}/>
                         <Route path={"/statistic"} component={Statistic}/>
                         <Route path={"/transfer"} component={Transfer}/>
                         <Route path={"/basic"} component={BasicInformation}></Route>
                         <Route path={"/rc"} component={SendAndReceiving}></Route>
+                        <Route path={"/"} component={Statistic}/>
                     </Switch>
                 </Content>
             </Layout>

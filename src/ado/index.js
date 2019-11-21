@@ -20,20 +20,28 @@ export function fetchList() {
 export function getUsers() {
     return request.get('/api/user');
 }
-export function postUserInfo(username,code,department) {
-    return request.post('/api/user',{username,code,department})
+
+export function postUserInfo(username, code, department) {
+    return request.post('/api/user', {username, code, department})
 }
 
 export function addDevice(payload) {
     return request.post('/api/device', payload)
 }
 
-export function putDevice(deviceId, UserId,remark) {
+export function putDevice(deviceId, UserId, remark) {
     if (!deviceId || !UserId) {
         return
     }
-    return request.put('/api/device', {deviceId, UserId,remark});
+    return request.put('/api/device', {deviceId, UserId, remark});
 }
+
 export function getGroupCount() {
     return request.get('/api/statistic')
+}
+
+export function getOperations(recordId) {
+     return request.get('/api/oper', {
+        params: {recordId}
+    })
 }

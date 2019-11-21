@@ -1,25 +1,46 @@
 import React from "react";
-import {Table, Input, Button, Icon, Breadcrumb} from 'antd';
+import {Table, Input, Button, Icon, Breadcrumb, Modal} from 'antd';
 import Highlighter from 'react-highlight-words';
-
 import {Link, Switch, Route} from "react-router-dom";
-import {textToNum} from "../utils";
+import {CoreList} from '../components/TransferList';
 import {getDeviceList} from "../redux/actionCreators";
 import {connect} from 'react-redux';
+import {getOperations} from "../ado";
+
 function mapStateToProps(state) {
     return {
         list: state.deviceList
     }
 }
+
 let map = [];
 map.push("");
 
 class List extends React.Component {
     state = {
         searchText: '',
-        isAll: true
+        isAll: true,
+        isModalShow: false,
+        operList: []
     };
-
+    handleCancel = () => {
+        this.setState({isModalShow: false})
+    }
+    handleModalConfirm = () => {
+        this.handleCancel();
+    }
+    handleModalShow = async (record) => {
+        let recordId = record['id'];
+        let ret = await getOperations(recordId);
+        let data = ret.data;
+        if (!data.length) {
+            return
+        }
+        this.setState({
+            isModalShow: true,
+            operList: ret.data
+        })
+    }
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({setSelectedKeys, selectedKeys, confirm, clearFilters}) => {
             return (
@@ -134,10 +155,10 @@ class List extends React.Component {
                 }
             },
             {
-                title:"购买单位",
-                dataIndex:"buyer",
-                key:"buyer",
-                sorter:_this.getSorter("buyer")
+                title: "购买单位",
+                dataIndex: "buyer",
+                key: "buyer",
+                sorter: _this.getSorter("buyer")
             },
             {
                 title: '品牌',
@@ -192,65 +213,62 @@ class List extends React.Component {
                 ...this.getColumnSearchProps('device_code'),
             },
             {
-            title: '品牌',
-            dataIndex: 'brand',
-            key: 'brand',
-            sorter: _this.getSorter("brand"),
-            ...this.getColumnSearchProps('brand'),
-        }, {
-            title: 'cpu',
-            dataIndex: 'computer_spec.cpu',
-            key: 'computer_spec.cpu',
-            ...this.getColumnSearchProps('computer_spec.cpu'),
-        }, {
-            title: '硬盘',
-            dataIndex: 'computer_spec.hard_driver',
-            key: 'computer_spec.hard_driver',
-            ...this.getColumnSearchProps('computer_spec.hard_driver'),
-        }, {
-            title: 'ip地址',
-            dataIndex: 'computer_spec.ip_addr',
-            key: 'computer_spec.ip_addr',
-            ...this.getColumnSearchProps('computer_spec.ip_addr'),
+                title: '品牌',
+                dataIndex: 'brand',
+                key: 'brand',
+                sorter: _this.getSorter("brand"),
+                ...this.getColumnSearchProps('brand'),
+            }, {
+                title: 'cpu',
+                dataIndex: 'computer_spec.cpu',
+                key: 'computer_spec.cpu',
+                ...this.getColumnSearchProps('computer_spec.cpu'),
+            }, {
+                title: '硬盘',
+                dataIndex: 'computer_spec.hard_driver',
+                key: 'computer_spec.hard_driver',
+                ...this.getColumnSearchProps('computer_spec.hard_driver'),
+            }, {
+                title: 'ip地址',
+                dataIndex: 'computer_spec.ip_addr',
+                key: 'computer_spec.ip_addr',
+                ...this.getColumnSearchProps('computer_spec.ip_addr'),
 
-        }, {
-            title: 'Mac地址',
-            dataIndex: 'computer_spec.mac',
-            key: 'computer_spec.mac',
-            ...this.getColumnSearchProps('computer_spec.mac'),
-        }, {
-            title: '内存',
-            dataIndex: 'computer_spec.memory',
-            key: 'computer_spec.memory',
-            ...this.getColumnSearchProps('computer_spec.memory'),
-        }, {
-            title: '网络归属',
-            dataIndex: 'computer_spec.net_attr',
-            key: 'computer_spec.net_attr',
-            ...this.getColumnSearchProps('computer_spec.net_attr'),
-        }, {
-            title: '操作系统',
-            dataIndex: 'computer_spec.operation_system',
-            key: 'computer_spec.operation_system',
-            ...this.getColumnSearchProps('computer_spec.operation_system'),
-        }, {
-            title: '用户名',
-            dataIndex: 'User.name',
-            key: 'User.name',
-            ...this.getColumnSearchProps('User.name'),
-            sorter: this.getSorter("User.name")
-        }, {
-            title: '状态',
-            dataIndex: 'state',
-            key: 'state',
-            ...this.getColumnSearchProps('state'),
-            sorter: this.getSorter("state")
-        },]
+            }, {
+                title: 'Mac地址',
+                dataIndex: 'computer_spec.mac',
+                key: 'computer_spec.mac',
+                ...this.getColumnSearchProps('computer_spec.mac'),
+            }, {
+                title: '内存',
+                dataIndex: 'computer_spec.memory',
+                key: 'computer_spec.memory',
+                ...this.getColumnSearchProps('computer_spec.memory'),
+            }, {
+                title: '网络归属',
+                dataIndex: 'computer_spec.net_attr',
+                key: 'computer_spec.net_attr',
+                ...this.getColumnSearchProps('computer_spec.net_attr'),
+            }, {
+                title: '操作系统',
+                dataIndex: 'computer_spec.operation_system',
+                key: 'computer_spec.operation_system',
+                ...this.getColumnSearchProps('computer_spec.operation_system'),
+            }, {
+                title: '用户名',
+                dataIndex: 'User.name',
+                key: 'User.name',
+                ...this.getColumnSearchProps('User.name'),
+                sorter: this.getSorter("User.name")
+            }, {
+                title: '状态',
+                dataIndex: 'state',
+                key: 'state',
+                ...this.getColumnSearchProps('state'),
+                sorter: this.getSorter("state")
+            },]
         const {Item} = Breadcrumb;
-        const query = {
-            pathname: "/list/computers",
-            query: this.state.list
-        }
+
 
         return (<>
                 <div style={{zIndex: "3", margin: "10px 20px"}}>
@@ -262,9 +280,28 @@ class List extends React.Component {
                                     onClick={() => this.setState({isAll: false})}>电脑详情页</Link></Item>
                     </Breadcrumb>
                 </div>
-                {this.state.isAll ? <Table columns={[...myColumns]} dataSource={this.props.list}/> :
+                {this.state.isAll ? <Table columns={[...myColumns]} dataSource={this.props.list}
+                                           onRow={(record, index) => {
+                                               return {
+                                                   onClick() {
+                                                       _this.handleModalShow(record);
+                                                   }
+                                               }
+                                           }//end lambda
+                                           }
+                    /> :
                     <Table columns={[...computerColumns]}
-                           dataSource={this.props.list.filter((item) => item['class'] === "电脑")}/>}
+                           dataSource={this.props.list.filter((item) => item['class'] === "电脑")}
+                    />}
+                <Modal title={"设备履历"}
+                       visible={this.state.isModalShow}
+                       onOk={this.handleModalConfirm}
+                       onCancel={this.handleCancel}
+                >
+                    <CoreList record={this.state.operList}>
+
+                    </CoreList>
+                </Modal>
             </>
         );
     }
