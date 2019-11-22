@@ -3,7 +3,7 @@ import {FilerAndSearchTable} from '../components/FilerAndSearchTable'
 import {getAllOperations} from "../ado";
 import {duplicateList} from "../utils";
 import {teal} from "@material-ui/core/colors";
-
+import './TransferTable.css';
 export class TransferTable extends React.Component {
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ export class TransferTable extends React.Component {
             }
         ]
         return (
-            <div>
+            <div className={'transfer-table'}>
                 <FilerAndSearchTable data={data} columns={columns}/>
             </div>
         )
