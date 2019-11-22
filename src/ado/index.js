@@ -45,3 +45,6 @@ export function getOperations(recordId) {
         params: {recordId}
     })
 }
+export function getAllOperations() {
+    return request.get('/api/oper/all')
+}

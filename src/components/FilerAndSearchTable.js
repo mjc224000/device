@@ -6,7 +6,7 @@ export class FilerAndSearchTable extends React.Component {
     state = {
         filteredInfo: null,
         sortedInfo: null,
-        data: []
+
     };
 
     constructor(props) {
@@ -14,7 +14,7 @@ export class FilerAndSearchTable extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({data: this.props.data})
+
     }
 
     handleChange = (pagination, filters, sorter) => {
