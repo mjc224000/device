@@ -9,7 +9,7 @@ import {Layout} from "antd";
 import {CoreSider} from './components/Sidebar/Sidebar';
 import BasicInformation from "./layouts/BasicInformation";
 import {SendAndReceiving} from "./layouts/SendandReceiving";
-import {TransferTable} from './layouts/transferList'
+import {TransferTable} from './layouts/TransferTable'
 import 'antd/dist/antd.min.css'
 import {Provider} from 'react-redux';
 import {store} from "./redux/store";
