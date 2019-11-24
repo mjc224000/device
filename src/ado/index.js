@@ -48,3 +48,6 @@ export function getOperations(recordId) {
 export function getAllOperations() {
     return request.get('/api/oper/all')
 }
+export function getLocations() {
+    return request.get('/api/locations')
+}

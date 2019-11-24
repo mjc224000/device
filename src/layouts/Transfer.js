@@ -1,9 +1,9 @@
 import React from "react";
-import {Table, Input, Button, Icon, Breadcrumb, Tag, Divider} from 'antd';
+import {Table, Input, Button, Icon, Breadcrumb, Tag, Divider, AutoComplete} from 'antd';
 import Highlighter from 'react-highlight-words';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {getUsers} from "../ado";
+import {getUsers, getLocations} from "../ado";
 import './Transfer.css';
 import SendIcon from '@material-ui/icons/Send';
 import Fab from '@material-ui/core/Fab';
@@ -32,7 +32,9 @@ class Transfer extends React.Component {
         activeUser: null,
         activeDevice: null,
         isModalShow: false,
-        remark: ''
+        remark: '',
+        locations: [],
+        location: ""
     }
 
     async componentDidMount() {
@@ -126,6 +128,8 @@ class Transfer extends React.Component {
             this.setState({isModalShow: false});
             return
         }
+        let ret = await getLocations();
+        console.log(ret);
         const {activeUser, activeDevice} = this.state;
         if (activeUser && activeDevice) {
             this.setState({isModalShow: true})
@@ -139,6 +143,9 @@ class Transfer extends React.Component {
     }
     handleRemarkChange = (val) => {
         this.setState({remark: val});
+    }
+    handleLocationChange = (val) => {
+        this.setState({location: val});
     }
 
     render() {
@@ -200,6 +207,7 @@ class Transfer extends React.Component {
         const department = state['User.department.name'];
         const {name} = userState;
         const userDepartment = userState['department.name'];
+        const {location, locations} = this.state;
         return <div style={{
             zIndex: 3,
             margin: " 10px 20px",
@@ -304,9 +312,14 @@ class Transfer extends React.Component {
                     <div style={{paddingLeft: "20px"}}>
                         <h3>转交给:</h3>
                         <p>领用人:{name}</p>
-                        <p>所在部门:{userDepartment}</p>
-                        <Input placeholder={"备注"} value={this.state.remark}
-                               onChange={(e) => this.handleRemarkChange(e.target.value)}/>
+                        <p>所在部门:{userDepartment}   </p>
+                        <div>使用地点： <AutoComplete dataSource={locations}
+                                                value={location}
+                                                placeholder={"地点"}
+                                                onChange={this.handleLocationChange}
+                        /></div>
+                        <p>备注： <Input placeholder={"备注"} value={this.state.remark}
+                                   onChange={(e) => this.handleRemarkChange(e.target.value)}/> </p>
                     </div>
                 </div>
             </Modal>
