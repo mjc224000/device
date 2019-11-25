@@ -29,11 +29,11 @@ export function addDevice(payload) {
     return request.post('/api/device', payload)
 }
 
-export function putDevice(deviceId, UserId, remark) {
+export function putDevice(deviceId, UserId, remark,location) {
     if (!deviceId || !UserId) {
         return
     }
-    return request.put('/api/device', {deviceId, UserId, remark});
+    return request.put('/api/device', {deviceId, UserId, remark,location});
 }
 
 export function getGroupCount() {
