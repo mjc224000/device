@@ -1,0 +1,18 @@
+.core-form {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.form-title {
+    flex: 0 0 45%;
+    margin-top: 0
+}
+
+.form-submit {
+    background: #9c27b0;
+    margin: 30px 100px;
+    textAlign: center;
+    width: 200px;
+    fontSize: 20 p;
+    fontWeight: 600;
+}

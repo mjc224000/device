@@ -5,13 +5,14 @@
     max-width: 380px;
     flex-grow: 1;
     display: flex;
-
+    justify-content: space-between;
 }
 
 .core-thumb-right {
     flex-grow: 1;
     max-width: 40%;
     overflow: auto;
+    text-align: right;
 }
 
 .core-card-thumb {
@@ -23,4 +24,11 @@
     position: relative;
     top: -20px;
     left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.core-card-thumb svg{
+    font-size: 50px;
 }

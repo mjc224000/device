@@ -1,5 +1,6 @@
 import React from "react";
 import {Table, Input, Button, Icon, Breadcrumb, Tag, Divider, AutoComplete} from 'antd';
+import {CoreAutoComplete} from "../components/CoreAutoComplete";
 import Highlighter from 'react-highlight-words';
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
@@ -124,20 +125,20 @@ class Transfer extends React.Component {
     }
 
     handleActionButtonClick = async (iShow) => {
+        let ret = await getLocations();
         if (!iShow) {
             this.setState({isModalShow: false});
             return
         }
-        let ret = await getLocations();
-        console.log(ret);
+        this.setState({locations: ret.data.map(item => item['name'])})
         const {activeUser, activeDevice} = this.state;
         if (activeUser && activeDevice) {
             this.setState({isModalShow: true})
         }
     }
     handleSubmitTrans = async () => {
-        const {activeUser, activeDevice, remark} = this.state;
-        await putDevice(activeDevice['id'], activeUser['id'], remark);
+        const {activeUser, activeDevice, remark, location} = this.state;
+        await putDevice(activeDevice['id'], activeUser['id'], remark, location);
         this.handleActionButtonClick(false);
         await this.props.fetchList();
     }
@@ -313,13 +314,15 @@ class Transfer extends React.Component {
                         <h3>转交给:</h3>
                         <p>领用人:{name}</p>
                         <p>所在部门:{userDepartment}   </p>
-                        <div>使用地点： <AutoComplete dataSource={locations}
-                                                value={location}
-                                                placeholder={"地点"}
-                                                onChange={this.handleLocationChange}
+                        <div>使用地点： <CoreAutoComplete dataSource={locations}
+                                                     value={location}
+                                                     placeholder={"地点"}
+                                                     onChange={this.handleLocationChange}
                         /></div>
-                        <p>备注： <Input placeholder={"备注"} value={this.state.remark}
-                                   onChange={(e) => this.handleRemarkChange(e.target.value)}/> </p>
+                        <p style={{display: "flex", marginTop: "10px"}}><Input placeholder={"备注"}
+                                                                               value={this.state.remark}
+                                                                               onChange={(e) => this.handleRemarkChange(e.target.value)}/>
+                        </p>
                     </div>
                 </div>
             </Modal>
