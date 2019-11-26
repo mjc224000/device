@@ -1,7 +1,7 @@
 import React from "react";
 import './BasicInformation.css'
 import {Breadcrumb} from "antd";
-import {Link} from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
 import {connect} from "react-redux";
 import Input from "antd/lib/input";
 import {Select, AutoComplete, notification} from "antd";
@@ -10,6 +10,7 @@ import {addDevice} from "../ado";
 import Button from '@material-ui/core/Button';
 import UserInfo from "./UserInfo";
 import {gFilter} from '../utils'
+import {CoreLink} from "../components/CoreLink";
 
 const mapStateToProps = function (state) {
 
@@ -163,15 +164,16 @@ class BasicInformation extends React.Component {
         return (
             <>
                 <Breadcrumb style={{paddingLeft: "50px", paddingTop: "20px"}}>
-                    <Item><Link to={"/basic"} style={{color: !this.state.isUser ? "#6666ff" : "#aaaaaa"}}
-                                onClick={() => this.setState({isUser: false})}>添加设备</Link></Item>
-                    <Item><Link to={"/basic/user"}
-                                style={{color: this.state.isUser ? "#6666ff" : "#aaaaaa"}}
-                                onClick={() => this.setState({isUser: true})}>添加用户</Link></Item>
+                    <Item><CoreLink to={"/basic/computer"}
+                                    onClick={() => this.setState({isUser: false})}>添加设备</CoreLink></Item>
+                    <Item><CoreLink to={"/basic/user"}>添加用户</CoreLink></Item>
+                    <Item> <CoreLink to={'/basic/department'}> 地点和部门</CoreLink></Item>
                 </Breadcrumb>
-                <div style={{margin: "10px 20px 80px"}}>
-                </div>
-                {this.state.isUser ? <UserInfo list={this.props.list}/> : <div>
+                <div style={{margin: "10px 20px 80px"}}></div>
+                <Switch>
+                    <Route path={'/basic/user'} component={() => <UserInfo list={this.props.list}/>}/>
+                </Switch>
+                {this.state.isUser ? null : <div>
                     <Device onChange={this.handleValueChange} {...this.state} list={this.props.list}/>
                     {this.state.class === "电脑" ?
                         <Computer {...this.state} list={this.props.list} onChange={this.handleValueChange}/> : null}
