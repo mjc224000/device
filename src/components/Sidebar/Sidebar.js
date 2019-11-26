@@ -82,7 +82,7 @@ export class CoreSider extends React.Component {
                     </Button></li>
                     <li><Button style={ButtonStyle}
                                 className={"/basic" === currentName ? "active" : ""}
-                                onClick={() => this.handleRouteChange('/basic')}>
+                                onClick={() => this.handleRouteChange('/basic/computer')}>
                     <MenuBookIcon></MenuBookIcon> <span>基础信息</span> </Button></li>
                     <li><Button style={ButtonStyle}
                                 className={"/tft" === currentName ? "active" : ""}
