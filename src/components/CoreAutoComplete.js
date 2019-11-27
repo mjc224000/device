@@ -5,12 +5,15 @@ export class CoreAutoComplete extends React.Component {
 
     render() {
         const {value, dataSource, placeholder, onChange} = this.props;
-        let o={};
+        let o = {};
         dataSource.forEach(function (item) {
-            o[item]=1;
+            if(item)
+            o[item] = 1;
         });
+        let ds = value ? Object.keys(o).filter(item => item.indexOf(value) > -1) : Object.keys(o);
+        console.log(ds,value);
         return (<AutoComplete value={value}
-                              dataSource={Object.keys(o).filter(item => item.indexOf(value) > -1)}
+                              dataSource={ds}
                               placeholder={placeholder}
                               onChange={onChange}/>)
     }

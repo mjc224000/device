@@ -20,7 +20,7 @@ const {Header, Footer, Content} = Layout;
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchList: () => getDeviceList(dispatch)
+        fetchList: () =>dispatch(getDeviceList)
     }
 }
 
