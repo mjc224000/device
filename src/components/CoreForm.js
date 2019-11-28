@@ -11,12 +11,12 @@ export class CoreForm extends React.Component {
     }
 
     render() {
-        const{onClick}=this.props;
+        const{onClick,title,desc}=this.props;
         return (<div className={'core-form'}>
             <div className={"profile form-title"}>
                 <div className={"profile-description"} >
-                    <h3>编辑 用户</h3>
-                    <h4>完善用户信息</h4>
+                    <h3>{title}</h3>
+                    <h4>{desc}</h4>
                 </div>
             </div>
             {this.props.children}

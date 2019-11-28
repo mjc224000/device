@@ -51,3 +51,6 @@ export function getAllOperations() {
 export function getLocations() {
     return request.get('/api/locations')
 }
+export function getDepartments() {
+    return request.get('/api/departments');
+}
