@@ -120,11 +120,18 @@ export class DeviceInfo extends React.Component {
         this.state = {
             classVal: '打印机',
             brand: "",
-            type:"",
-            "monetary":"",
-            device_code:"",
-            manufacturing_date:"",
-            remark:""
+            type: "",
+            "monetary": "",
+            device_code: "",
+            manufacturing_date: "",
+            remark: "",
+            operation_system: "",
+            ip_addr:"",
+            net_attr:"",
+            mac:"",
+            cpu:"",
+            memory:"",
+            hard_driver:""
         }
     }
 
@@ -134,50 +141,84 @@ export class DeviceInfo extends React.Component {
 
     render() {
         const {Option} = Select;
-        const {classVal, brand,type,monetary,buyer,device_code,manufacturing_date,remark} = this.state
+        const {
+            classVal, brand, type, monetary,
+            buyer, device_code,
+            manufacturing_date,
+            remark, operation_system,
+            ip_addr,net_attr,mac,cpu,memory,hard_driver
+        } = this.state
         const {list} = this.props;
-        return <div className={"profile"}>
-            <div className={"profile-description"}>
-                <h3>编辑 设备</h3>
-                <h4>完善设备信息</h4>
+        return <>
+            <div className={"profile"}>
+                <div className={"profile-description"}>
+                    <h3>编辑 设备</h3>
+                    <h4>完善设备信息</h4>
+                </div>
+                <div className={"input-row"} style={{
+                    display: "flex"
+                }}>
+                    <Select name={"class"} style={{width: 120}}
+                            value={classVal}
+                            onChange={(val) => this.handleChange("classVal", val)}>
+                        <Option value={"电脑"}>电脑</Option>
+                        <Option value={"打印机"}>打印机</Option>
+                        <Option value={"显示器"}>显示器</Option>
+                    </Select>
+                    <CoreAutoComplete dataSource={list.map(item => item['brand'])} placeholder={"品牌"}
+                                      value={brand}
+                                      onChange={(val) => this.handleChange("brand", val)}/>
+                    <CoreAutoComplete dataSource={list.map(item => item['type'])}
+                                      value={type}
+                                      onChange={(val) => this.handleChange('type', val)}
+                    />
+                    <Input style={{width: "150px", flex: "0 0 150px"}} type={"number"} name={"monetary"} value={monetary}
+                           placeholder={"购买金额"}
+                           onChange={(e) => this.handleChange("monetary", e.target.value)}/>
+                </div>
+                <div className={"input-row"}>
+                    <CoreAutoComplete name={'buyer'} dataSource={list.map(item => item['buyer'])} placeholder={"购买单位"}
+                                      value={buyer}
+                                      onChange={(val) => {
+                                          this.handleChange("buyer", val);
+                                      }}/>
+                    <Input name={"device_code"} value={device_code} placeholder={"设备编码"}
+                           onChange={(e) => this.handleChange("device_code", e.target.value)}/>
+                </div>
+                <div className={"input-row"} style={{
+                    display: "flex"
+                }}>
+                    <Input style={{display: "inline"}} name={"manufacturing_date"} type={"date"} placeholder={"生产日期"}
+                           value={manufacturing_date}
+                           onChange={(e) => this.handleChange("manufacturing_date", e.target.value)}/>
+                    <Input name={"remark"} value={remark} placeholder={"备注"}
+                           onChange={(e) => this.handleChange("remark", e.target.value)}/>
+                </div>
             </div>
-            <div className={"input-row"} style={{
-                display: "flex"
-            }}>
-                <Select name={"class"} style={{width: 120}}
-                        value={classVal}
-                        onChange={(val) => this.handleChange("classVal", val)}>
-                    <Option value={"电脑"}>电脑</Option>
-                    <Option value={"打印机"}>打印机</Option>
-                    <Option value={"显示器"}>显示器</Option>
-                </Select>
-                <CoreAutoComplete dataSource={list.map(item => item['brand'])} placeholder={"品牌"}
-                                  value={brand}
-                                  onChange={(val) => this.handleChange("brand", val)}/>
-                <CoreAutoComplete dataSource={list.map(item => item['type'])}
-                                  value={type}
-                                  onChange={(val) => this.handleChange('type', val)}
-                />
-                <Input style={{width: "150px", flex: "0 0 150px"}} type={"number"} name={"monetary"} value={monetary}
-                       placeholder={"购买金额"}
-                       onChange={(e) => this.handleChange("monetary", e.target.value)}/>
-            </div>
-        <div className={"input-row"}>
-            <CoreAutoComplete name={'buyer'} dataSource={ list.map(item=>item['buyer'])} placeholder={"购买单位"} value={buyer}
-                              onChange={(val) => {
-                                  this.handleChange("buyer", val);
-                              }}/>
-            <Input name={"device_code"} value={device_code} placeholder={"设备编码"}
-                   onChange={(e) =>  this.handleChange("device_code", e.target.value)}/>
-        </div>
-            <div className={"input-row"} style={{
-                display: "flex"
-            }}>
-                <Input style={{display: "inline"}} name={"manufacturing_date"} type={"date"} placeholder={"生产日期"}
-                       value={manufacturing_date} onChange={(e) =>this.handleChange("manufacturing_date", e.target.value)}/>
-                <Input name={"remark"} value={remark} placeholder={"备注"}
-                       onChange={(e) => this.handleChange("remark", e.target.value)}/>
-            </div>
-        </div>
+            {classVal === '电脑' ? <div style={{paddingTop: "10px"}} className={"profile computer"}>
+                <div className={"input-row"}>
+                    <CoreAutoComplete value={operation_system} dataSource={list.map(item=>item['operation_system'])}
+                                      name={"operation_system"} placeholder={"‘操作系统"}
+                                      onChange={(val) =>  this.handleChange("operation_system", val)}/>
+                    <CoreAutoComplete dataSource={list.map(item=>item['ip_addr'])} value={ip_addr} name={"ip_addr"}
+                                      placeholder={"ip地址"}
+                                      type={"ip"}
+                                      onChange={(val) =>  this.handleChange("ip_addr", val)}/>
+                    <CoreAutoComplete value={net_attr} dataSource={ list.map(item=>item['net_attr'])} name={"net_attr"}
+                                      placeholder={"网络归属"}
+                                      onChange={(val) => this.handleChange("net_attr", val)}/>
+                    <Input name={"mac"} value={mac} placeholder={"mac地址"}
+                           onChange={(e) => this.handleChange("mac", e.target.value)}/>
+                </div>
+                <div className={"input-row"}>
+                    <Input name={"cpu"} value={cpu} placeholder={"‘cpu"} onChange={(e) => this.handleChange("cpu", e.target.value)}/>
+                    <Input name={"memory"} value={memory} placeholder={"内存"}
+                           onChange={(e) => this.handleChange("memory", e.target.value)}/>
+                    <Input name={"hard_driver"} value={hard_driver} placeholder={"硬盘"}
+                           onChange={(e) => this.handleChange("hard_driver", e.target.value)}/>
+                </div>
+            </div> : null}
+        </>
+
     }
 }
