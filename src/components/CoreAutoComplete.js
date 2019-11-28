@@ -11,7 +11,6 @@ export class CoreAutoComplete extends React.Component {
             o[item] = 1;
         });
         let ds = value ? Object.keys(o).filter(item => item.indexOf(value) > -1) : Object.keys(o);
-        console.log(ds,value);
         return (<AutoComplete value={value}
                               dataSource={ds}
                               placeholder={placeholder}
