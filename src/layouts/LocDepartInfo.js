@@ -26,7 +26,12 @@ export class LocDepartInfo extends React.Component {
         this.setState({locs: data, departs})
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
+        const {loc,depart}=this.state;
+        if(loc)
+           await postLocations(loc);
+        if(depart)
+           await postDepartments(depart);
 
     }
 
