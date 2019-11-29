@@ -3,10 +3,7 @@
     justify-content: flex-start;
 }
 
-.form-title {
-    flex: 0 0 45%;
-    margin-top: 0
-}
+
 
 .form-submit {
     background: #9c27b0;

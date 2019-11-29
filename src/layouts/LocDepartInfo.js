@@ -1,7 +1,7 @@
 import React from "react";
 import {CoreForm} from "../components/CoreForm";
-import {AutoComplete} from "antd";
-import {getLocations, getDepartments} from "../ado";
+import {CoreAutoComplete} from "../components/CoreAutoComplete";
+import {getLocations, getDepartments,postDepartments,postLocations} from "../ado";
 
 export class LocDepartInfo extends React.Component {
     constructor(props) {
@@ -14,14 +14,16 @@ export class LocDepartInfo extends React.Component {
         };
     }
 
-    async componentDidMount() {
+      componentDidMount() {
+        this.fetchData();
+    }
+    async fetchData(){
         let ret = await getLocations();
         let data = ret.data;
-       // let departs = await getDepartments();
-       // departs = departs.data;
-        this.setState({locs: data,})
+        let departs = await getDepartments();
+        departs = departs.data;
+        this.setState({locs: data, departs})
     }
-
     handleSubmit = () => {
 
     }
@@ -32,12 +34,21 @@ export class LocDepartInfo extends React.Component {
 
     render() {
         console.log(this.state);
+        const {locs, loc, departs, depart} = this.state;
         return (<div>
             <CoreForm title={'部门和地点'} desc={"添加部门地点信息"}>
                 <div className={"input-row"}>
-                    <AutoComplete placeholder={"地点"}
-                                  onChange={(val) => this.handleChange('loc', val)}
+                    <CoreAutoComplete placeholder={"地点(选填)"}
+                                      value={loc}
+                                      dataSource={locs.map(item => item['name'])}
+                                      onChange={(val) => this.handleChange('loc', val)}
 
+                    />
+                    <CoreAutoComplete
+                        placeholder={"部门（选填）"}
+                        value={depart}
+                        dataSource={departs.map(item => item['name'])}
+                        onChange={val => this.handleChange('depart', val)}
                     />
                 </div>
             </CoreForm>

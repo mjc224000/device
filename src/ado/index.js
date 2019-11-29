@@ -54,3 +54,9 @@ export function getLocations() {
 export function getDepartments() {
     return request.get('/api/departments');
 }
+export function postDepartment(depart) {
+   return  request.post('/api/departments',{depart})
+}
+export function postLocations(loc) {
+   return  request.post('/api/locations',{loc})
+}
