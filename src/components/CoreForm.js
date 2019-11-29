@@ -6,11 +6,12 @@ export class CoreForm extends React.Component {
     static propTypes = {
         title: PropTypes.string,
         desc: PropTypes.string,
+        onSubmit:PropTypes.func
 
     }
 
     render() {
-        const{onClick,title,desc}=this.props;
+        const{onSubmit,title,desc}=this.props;
         return (<div className={'core-form'}>
             <div className={"profile"}>
                 <div className={"profile-description"} >
@@ -24,7 +25,7 @@ export class CoreForm extends React.Component {
                         color:"white",
                         padding:"10px,20px",
                         margin:"20px",
-                    }} onClick={onClick}  variant="contained" type={"submit"}>提交</Button>
+                    }} onClick={onSubmit}  variant="contained" type={"submit"}>提交</Button>
             </div>
             </div>
 

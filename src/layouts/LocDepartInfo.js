@@ -1,7 +1,7 @@
 import React from "react";
 import {CoreForm} from "../components/CoreForm";
 import {CoreAutoComplete} from "../components/CoreAutoComplete";
-import {getLocations, getDepartments,postDepartments,postLocations} from "../ado";
+import {getLocations, getDepartments, postDepartments, postLocations} from "../ado";
 
 export class LocDepartInfo extends React.Component {
     constructor(props) {
@@ -14,21 +14,24 @@ export class LocDepartInfo extends React.Component {
         };
     }
 
-      componentDidMount() {
+    componentDidMount() {
         this.fetchData();
     }
-    async fetchData(){
+
+    async fetchData() {
         let ret = await getLocations();
         let data = ret.data;
         let departs = await getDepartments();
         departs = departs.data;
         this.setState({locs: data, departs})
     }
+
     handleSubmit = () => {
 
     }
 
     handleChange = (key, val) => {
+        val = val.trim();
         this.setState({[key]: val});
     }
 
@@ -49,6 +52,7 @@ export class LocDepartInfo extends React.Component {
                         value={depart}
                         dataSource={departs.map(item => item['name'])}
                         onChange={val => this.handleChange('depart', val)}
+                        onSubmit={this.handleSubmit}
                     />
                 </div>
             </CoreForm>
