@@ -2,6 +2,7 @@ import React from "react";
 import {CoreForm} from "../components/CoreForm";
 import {CoreAutoComplete} from "../components/CoreAutoComplete";
 import {getLocations, getDepartments, postDepartments, postLocations} from "../ado";
+import {notification} from "antd";
 
 export class LocDepartInfo extends React.Component {
     constructor(props) {
@@ -28,10 +29,19 @@ export class LocDepartInfo extends React.Component {
 
     handleSubmit = async () => {
         const {loc,depart}=this.state;
-        if(loc)
-           await postLocations(loc);
+        let ret1,ret2;
+        if(loc){
+           ret1= await postLocations(loc);
+           ret1=ret1.data;
+        }
         if(depart)
-           await postDepartments(depart);
+        {
+          ret2=  await postDepartments(depart);
+          ret2=ret2.data;
+        }
+           if(ret1['msg']==="ok"||ret2['msg']==="ok"){
+               notification.open({message:"ok",description:"成功"})
+           }
 
     }
 
