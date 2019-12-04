@@ -7,7 +7,6 @@ export class CoreForm extends React.Component {
         title: PropTypes.string,
         desc: PropTypes.string,
         onSubmit:PropTypes.func
-
     }
 
     render() {
