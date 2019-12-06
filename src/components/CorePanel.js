@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import './coreCard.css';
-
-
 export class CorePanel extends React.Component {
     static propTypes = {
         title: PropTypes.string,
@@ -19,8 +17,6 @@ export class CorePanel extends React.Component {
                 </div>
                 {this.props.children}
             </div>
-
-
         </div>)
     }
 }

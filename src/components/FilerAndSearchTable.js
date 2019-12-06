@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table, Button} from 'antd';
-
+import {array} from 'prop-types'
 
 export class FilerAndSearchTable extends React.Component {
     state = {
@@ -8,6 +8,10 @@ export class FilerAndSearchTable extends React.Component {
         sortedInfo: null,
 
     };
+    static propTypes = {
+        columns: array.isRequired,
+        data: array.isRequired
+    }
 
     constructor(props) {
         super(props);
@@ -57,9 +61,11 @@ export class FilerAndSearchTable extends React.Component {
 
         return (
             <div>
-                <div className="table-operations" style={{paddingRight:"20px"}}>
+                <div className="table-operations" style={{paddingRight: "20px"}}>
                 </div>
-                <Table style={{boxShadow:"0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)",}} columns={columns} dataSource={this.props.data} onChange={this.handleChange}/>
+                <Table
+                    style={{boxShadow: "0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(156, 39, 176, .4)",}} {...this.props}
+                    columns={columns} dataSource={this.props.data} onChange={this.handleChange}/>
             </div>
         );
     }
