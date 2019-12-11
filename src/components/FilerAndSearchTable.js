@@ -56,7 +56,6 @@ export class FilerAndSearchTable extends React.Component {
 
     render() {
         let {sortedInfo, filteredInfo} = this.state;
-
         let columns = this.mapPropsToColumn();
 
         return (

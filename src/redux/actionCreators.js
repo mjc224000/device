@@ -15,11 +15,9 @@ export async function getDeviceList(dispatch) {
         item['ip_addr'] = item['computer_spec.ip_addr']
 
     })
-    console.log(payload,GET_LIST);
-
-         dispatch({
-             type: GET_LIST,
-             payload: payload
-         })
+    dispatch({
+        type: GET_LIST,
+        payload: payload
+    })
 
 }

@@ -19,3 +19,7 @@ export function gFilter(fn) {
         })
     }
 }
+
+export function checkToken() {
+    return localStorage.getItem('token');
+}

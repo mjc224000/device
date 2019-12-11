@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import {createBrowserHistory} from "history";
 import {Router, Route, Switch, Redirect} from "react-router-dom";
@@ -15,23 +15,48 @@ import {Provider} from 'react-redux';
 import {store} from "./redux/store";
 import {getDeviceList} from "./redux/actionCreators";
 import {connect} from 'react-redux';
+import {Modal, Input} from "antd";
+import {getToken} from "./ado";
+import {checkToken} from "./utils";
 
 const {Header, Footer, Content} = Layout;
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchList: () =>dispatch(getDeviceList)
+        fetchList: () => dispatch(getDeviceList)
     }
 }
 
 const hist = createBrowserHistory();
 
 function App(props) {
+    let [isModalShow, setIsModalShow] = useState(checkToken() ? false : true);
     useEffect(() => {
         props.fetchList();
     })
-    return (
+    const [passWd, setPassWd] = useState('');
 
+    function onPassWdChange(val) {
+        setPassWd(val);
+    }
+
+    function handleModalCancel() {
+        if (checkToken()) {
+            setIsModalShow(false);
+        }
+    }
+
+    async function handleSubmit() {
+        let ret = await getToken(passWd);
+
+        let data = ret.data;
+        if (data['token']) {
+            localStorage.setItem('token', data['token']);
+        }
+        handleModalCancel();
+    }
+
+    return (
         <Layout style={{display: "flex"}}>
             <CoreSider history={hist}></CoreSider>
             <Layout>
@@ -44,10 +69,17 @@ function App(props) {
                         <Route path={"/rc"} component={SendAndReceiving}/>
                         <Route path={"/tft"} component={TransferTable}/>
                         <Route path={"/"} component={Statistic}/>
-
                     </Switch>
                 </Content>
             </Layout>
+            <Modal visible={isModalShow} title={'请输入验证信息'}
+                   onCancel={handleModalCancel}
+                   onOk={handleSubmit}
+            >
+                <div style={{display: "flex"}}>
+                    密码：<Input style={{flexBasis: "80%"}} type={'password'} value={passWd} onChange={e => onPassWdChange(e.target.value)}/>
+                </div>
+            </Modal>
         </Layout>
 
     );
