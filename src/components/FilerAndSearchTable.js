@@ -1,6 +1,31 @@
 import React from 'react';
 import {Table, Button} from 'antd';
 import {array} from 'prop-types'
+import {duplicateList} from "../utils";
+/***
+ * example
+ *  const columns = [
+ {
+        title: '姓名',
+        dataIndex: 'name',
+        key: 'name',
+        sorter: (a, b) => a.name.length - b.name.length,
+        ellipsis: true,
+        onFilter:(value,record)=>record['name'].include(value)
+    },
+ {
+        title: '部门',
+        dataIndex: 'department',
+        key: 'department',
+        ellipsis: true,
+        onFilter: (value, record) => record.department.includes(value),
+        filters: duplicateList(data)("department").map(function (item) {
+            return {text: item, value: item}
+        })
+    },
+ ];
+ */
+
 
 export class FilerAndSearchTable extends React.Component {
     state = {

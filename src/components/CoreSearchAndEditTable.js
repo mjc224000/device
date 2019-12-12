@@ -120,13 +120,14 @@ class EditableTable extends React.Component {
     };
 
     save(form, key) {
+        const onSave=this.props.onSave;
         form.validateFields((error, row) => {
             if (error) {
                 return;
             }
             const newData = [...this.state.data];
             const index = newData.findIndex(item => key === item.key);
-            if (index > -1) {
+
                 const item = newData[index];
                 console.log(item, row);
                 newData.splice(index, 1, {
@@ -134,10 +135,7 @@ class EditableTable extends React.Component {
                     ...row,
                 });
                 this.setState({data: newData, editingKey: ''});
-            } else {
-                newData.push(row);
-                this.setState({data: newData, editingKey: ''});
-            }
+
         });
     }
 
