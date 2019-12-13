@@ -105,13 +105,43 @@ class EditableTable extends React.Component {
         this.setState({editingKey: key});
     }
 
+    handleSearch = (selectedKeys, confirm) => {
+        confirm();
+        this.setState({searchText: selectedKeys[0]});
+        console.log(selectedKeys, confirm)
+    }
+    handleReset = (clearFilters) => {
+        clearFilters();
+        this.setState({searchText: ''});
+    }
+    getColumnSearchProps = dataIndex => ({
+        filterDropdown: (option) => {
+            const {setSelectedKeys, selectedKeys, confirm, clearFilters} = option;
+            console.log(option);
+            return <div style={{padding: 8}}>
+                <div>
+                    <CoreAutoComplete
+                        dataSource={[]}
+                        value={selectedKeys[0]}
+                        onChange={val => setSelectedKeys([val])}
+                    />
+                </div>
+                <Button onClick={() => this.handleReset(clearFilters)}>取消</Button>
+                <Button onClick={() => this.handleSearch(selectedKeys, confirm)}>搜索</Button>
+            </div>
+        },
+        onFilter: (value, record) => {
+            console.log(dataIndex, value, record);
+            return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
+        }
+    })
+
     render() {
         const components = {
             body: {
                 cell: EditableCell,
             },
         };
-        const _this = this;
         this.columns = [
             {
                 title: 'name',
@@ -123,21 +153,8 @@ class EditableTable extends React.Component {
                     return true
                 },
                 filters: [{text: 123, value: "123"}],
-                filterDropdown: (option) => {
-                    const {setSelectedKeys, selectedKeys} = option;
-                    console.log(option);
-                    return <div style={{padding: 8}}>
-                        <div>
-                            <CoreAutoComplete
-                                dataSource={[]}
-                                value={selectedKeys[0]}
-                                onChange={val => setSelectedKeys([val])}
-                            />
-                        </div>
-                        <Button>取消</Button>
-                        <Button>搜索</Button>
-                    </div>
-                }
+                ...this.getColumnSearchProps("name")
+
             },
             {
                 title: 'age',
