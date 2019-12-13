@@ -1,6 +1,9 @@
 import React from 'react';
 import {Table, Input, InputNumber, Popconfirm, Form} from 'antd';
 import {FilerAndSearchTable} from "./FilerAndSearchTable";
+import {array} from "prop-types";
+import {CoreAutoComplete} from "./CoreAutoComplete";
+import Button from "@material-ui/core/Button";
 
 const data = [];
 for (let i = 0; i < 100; i++) {
@@ -59,15 +62,82 @@ class EditableCell extends React.Component {
 }
 
 class EditableTable extends React.Component {
+    /*  static propTypes = {
+          columns: array.isRequired,
+          dataSource: array.isRequired
+      }
+  */
+
+
     constructor(props) {
         super(props);
-        this.state = {data, editingKey: ''};
+        this.state = {data, editingKey: '', searchText: ""};
+
+    }
+
+    isEditing = record => record.key === this.state.editingKey;
+
+    cancel = () => {
+        this.setState({editingKey: ''});
+    };
+
+    save(form, key) {
+        const onSave = this.props.onSave;
+        form.validateFields((error, row) => {
+            if (error) {
+                return;
+            }
+            const newData = [...this.state.data];
+            const index = newData.findIndex(item => key === item.key);
+
+            const item = newData[index];
+            console.log(item, row);
+            newData.splice(index, 1, {
+                ...item,
+                ...row,
+            });
+            this.setState({data: newData, editingKey: ''});
+
+        });
+    }
+
+    edit(key) {
+        this.setState({editingKey: key});
+    }
+
+    render() {
+        const components = {
+            body: {
+                cell: EditableCell,
+            },
+        };
+        const _this = this;
         this.columns = [
             {
                 title: 'name',
                 dataIndex: 'name',
                 width: '25%',
                 editable: true,
+                onFilter: (value, record) => {
+                    console.log(value, record);
+                    return true
+                },
+                filters: [{text: 123, value: "123"}],
+                filterDropdown: (option) => {
+                    const {setSelectedKeys, selectedKeys} = option;
+                    console.log(option);
+                    return <div style={{padding: 8}}>
+                        <div>
+                            <CoreAutoComplete
+                                dataSource={[]}
+                                value={selectedKeys[0]}
+                                onChange={val => setSelectedKeys([val])}
+                            />
+                        </div>
+                        <Button>取消</Button>
+                        <Button>搜索</Button>
+                    </div>
+                }
             },
             {
                 title: 'age',
@@ -111,45 +181,6 @@ class EditableTable extends React.Component {
                 },
             },
         ];
-    }
-
-    isEditing = record => record.key === this.state.editingKey;
-
-    cancel = () => {
-        this.setState({editingKey: ''});
-    };
-
-    save(form, key) {
-        const onSave=this.props.onSave;
-        form.validateFields((error, row) => {
-            if (error) {
-                return;
-            }
-            const newData = [...this.state.data];
-            const index = newData.findIndex(item => key === item.key);
-
-                const item = newData[index];
-                console.log(item, row);
-                newData.splice(index, 1, {
-                    ...item,
-                    ...row,
-                });
-                this.setState({data: newData, editingKey: ''});
-
-        });
-    }
-
-    edit(key) {
-        this.setState({editingKey: key});
-    }
-
-    render() {
-        const components = {
-            body: {
-                cell: EditableCell,
-            },
-        };
-
         const columns = this.columns.map(col => {
             if (!col.editable) {
                 return col;
@@ -168,10 +199,9 @@ class EditableTable extends React.Component {
 
         return (
             <EditableContext.Provider value={this.props.form}>
-                <FilerAndSearchTable
+                <Table
+                    dataSource={this.state.data}
                     components={components}
-                    bordered
-                    data={this.state.data}
                     columns={columns}
                     rowClassName="editable-row"
                     pagination={{

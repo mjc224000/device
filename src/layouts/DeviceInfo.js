@@ -3,6 +3,9 @@ import {AutoComplete, Select} from "antd";
 import {duplicateList, gFilter} from "../utils";
 import {CoreAutoComplete} from "../components/CoreAutoComplete";
 import Input from "antd/lib/input";
+import {Button} from "@material-ui/core";
+import {CoreButton} from "../components/CoreButton";
+import {addDevice} from "../ado";
 
 const initState = {
     class: "打印机",
@@ -126,17 +129,21 @@ export class DeviceInfo extends React.Component {
             manufacturing_date: "",
             remark: "",
             operation_system: "",
-            ip_addr:"",
-            net_attr:"",
-            mac:"",
-            cpu:"",
-            memory:"",
-            hard_driver:""
+            ip_addr: "",
+            net_attr: "",
+            mac: "",
+            cpu: "",
+            memory: "",
+            hard_driver: ""
         }
     }
 
     handleChange = (key, val) => {
         this.setState({[key]: val});
+    }
+    handleSubmit = async () => {
+        let ret = await addDevice(this.state);
+        console.log(ret)
     }
 
     render() {
@@ -146,7 +153,7 @@ export class DeviceInfo extends React.Component {
             buyer, device_code,
             manufacturing_date,
             remark, operation_system,
-            ip_addr,net_attr,mac,cpu,memory,hard_driver
+            ip_addr, net_attr, mac, cpu, memory, hard_driver
         } = this.state
         const {list} = this.props;
         return <>
@@ -172,7 +179,8 @@ export class DeviceInfo extends React.Component {
                                       value={type}
                                       onChange={(val) => this.handleChange('type', val)}
                     />
-                    <Input style={{width: "150px", flex: "0 0 150px"}} type={"number"} name={"monetary"} value={monetary}
+                    <Input style={{width: "150px", flex: "0 0 150px"}} type={"number"} name={"monetary"}
+                           value={monetary}
                            placeholder={"购买金额"}
                            onChange={(e) => this.handleChange("monetary", e.target.value)}/>
                 </div>
@@ -197,27 +205,37 @@ export class DeviceInfo extends React.Component {
             </div>
             {classVal === '电脑' ? <div style={{paddingTop: "10px"}} className={"profile computer"}>
                 <div className={"input-row"}>
-                    <CoreAutoComplete value={operation_system} dataSource={list.map(item=>item['operation_system'])}
+                    <CoreAutoComplete value={operation_system} dataSource={list.map(item => item['operation_system'])}
                                       name={"operation_system"} placeholder={"‘操作系统"}
-                                      onChange={(val) =>  this.handleChange("operation_system", val)}/>
-                    <CoreAutoComplete dataSource={list.map(item=>item['ip_addr'])} value={ip_addr} name={"ip_addr"}
+                                      onChange={(val) => this.handleChange("operation_system", val)}/>
+                    <CoreAutoComplete dataSource={list.map(item => item['ip_addr'])} value={ip_addr} name={"ip_addr"}
                                       placeholder={"ip地址"}
                                       type={"ip"}
-                                      onChange={(val) =>  this.handleChange("ip_addr", val)}/>
-                    <CoreAutoComplete value={net_attr} dataSource={ list.map(item=>item['net_attr'])} name={"net_attr"}
+                                      onChange={(val) => this.handleChange("ip_addr", val)}/>
+                    <CoreAutoComplete value={net_attr} dataSource={list.map(item => item['net_attr'])} name={"net_attr"}
                                       placeholder={"网络归属"}
                                       onChange={(val) => this.handleChange("net_attr", val)}/>
                     <Input name={"mac"} value={mac} placeholder={"mac地址"}
                            onChange={(e) => this.handleChange("mac", e.target.value)}/>
                 </div>
                 <div className={"input-row"}>
-                    <Input name={"cpu"} value={cpu} placeholder={"‘cpu"} onChange={(e) => this.handleChange("cpu", e.target.value)}/>
+                    <Input name={"cpu"} value={cpu} placeholder={"‘cpu"}
+                           onChange={(e) => this.handleChange("cpu", e.target.value)}/>
                     <Input name={"memory"} value={memory} placeholder={"内存"}
                            onChange={(e) => this.handleChange("memory", e.target.value)}/>
                     <Input name={"hard_driver"} value={hard_driver} placeholder={"硬盘"}
                            onChange={(e) => this.handleChange("hard_driver", e.target.value)}/>
                 </div>
             </div> : null}
+            <div>
+                <CoreButton
+                    style={{
+                        float: "right",
+                        margin: "50px 100px"
+                    }}
+                    onClick={this.handleSubmit}>提交</CoreButton>
+            </div>
+
         </>
 
     }

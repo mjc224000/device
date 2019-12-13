@@ -1,8 +1,14 @@
 import React from "react";
 import {AutoComplete} from 'antd';
+import {func,array,any,string} from "prop-types";
 
 export class CoreAutoComplete extends React.Component {
-
+    static propTypes={
+        value:any,
+        onChange:func,
+        dataSource:array.isRequired,
+        placeholder:string
+    }
     render() {
         const {value, dataSource, placeholder, onChange} = this.props;
         let o = {};
