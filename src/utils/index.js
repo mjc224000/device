@@ -9,6 +9,14 @@ export function duplicateList(data) {
         return arr;
     }
 }
+export function deDuplicate(arr) {
+    let o={};
+    for (let i = 0; i <arr.length ; i++) {
+        let key=arr[i];
+        o[key]=null;
+    }
+    return Object.keys(o);
+}
 export function gFilter(fn) {
     return function (text, val) {
         return fn(text).filter(function (t) {
