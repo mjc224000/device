@@ -49,9 +49,7 @@ class EditableCell extends React.Component {
                             initialValue: record[dataIndex],
                         })(this.getInput())}
                     </Form.Item>
-                ) : (
-                    children
-                )}
+                ) : (children)}
             </td>
         );
     };
