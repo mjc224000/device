@@ -196,6 +196,11 @@ class List extends React.Component {
                 dataIndex: "User.department.name",
                 key: "User.department.name",
                 ...this.getColumnSearchProps("User.department.name")
+            },{
+                title: '备注',
+                dataIndex: 'remark',
+                key: 'remark',
+                ...this.getColumnSearchProps('remark'),
             }
             , {
                 title: '状态',

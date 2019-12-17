@@ -4,7 +4,7 @@ import {func} from "prop-types";
 
 export function CoreButton(props) {
     return <Button
-        type="primary"
+        type="button"
         onClick={props.onClick}
         icon="search"
         size="small"

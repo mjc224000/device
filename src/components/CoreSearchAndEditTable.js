@@ -65,8 +65,6 @@ class EditableTable extends React.Component {
           dataSource: array.isRequired
       }
   */
-
-
     constructor(props) {
         super(props);
         this.state = {data, editingKey: '', searchText: ""};
@@ -119,7 +117,7 @@ class EditableTable extends React.Component {
             return <div style={{padding: 8}}>
                 <div>
                     <CoreAutoComplete
-                        dataSource={[]}
+                        dataSource={[1,2,3]}
                         value={selectedKeys[0]}
                         onChange={val => setSelectedKeys([val])}
                     />
@@ -133,7 +131,25 @@ class EditableTable extends React.Component {
             return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
         }
     })
+    mapPropsToColumns=(columns)=>{
+        return columns = this.columns.map(col => {
+            let ret=col;
+            if (col.editable) {
+                ret= {
+                    ...ret,
+                    onCell: record => ({
+                        record,
+                        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                        dataIndex: col.dataIndex,
+                        title: col.title,
+                        editing: this.isEditing(record),
+                    }),
+                };
+            }
 
+
+        });
+    }
     render() {
         const components = {
             body: {
@@ -187,12 +203,9 @@ class EditableTable extends React.Component {
               <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
                 <a>Cancel</a>
               </Popconfirm>
-            </span>
-                    ) : (
-                        <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+            </span>) : (<a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
                             Edit
-                        </a>
-                    );
+                        </a>);
                 },
             },
         ];
