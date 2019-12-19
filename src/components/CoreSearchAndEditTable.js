@@ -1,9 +1,11 @@
 import React from 'react';
 import {Table, Input, InputNumber, Popconfirm, Form} from 'antd';
 import {FilerAndSearchTable} from "./FilerAndSearchTable";
-import {array} from "prop-types";
+import {array, func} from "prop-types";
 import {CoreAutoComplete} from "./CoreAutoComplete";
 import Button from "@material-ui/core/Button";
+
+import {deDuplicate} from "../utils";
 
 const data = [];
 for (let i = 0; i < 100; i++) {
@@ -17,13 +19,13 @@ for (let i = 0; i < 100; i++) {
 const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
+
     getInput = () => {
         if (this.props.inputType === 'number') {
             return <InputNumber/>;
         }
         return <Input/>;
     };
-
     renderCell = ({getFieldDecorator}) => {
         const {
             editing,
@@ -60,11 +62,12 @@ class EditableCell extends React.Component {
 }
 
 class EditableTable extends React.Component {
-    /*  static propTypes = {
-          columns: array.isRequired,
-          dataSource: array.isRequired
-      }
-  */
+    static propTypes = {
+        columns: array.isRequired,
+        dataSource: array.isRequired,
+        onSave: func
+    }
+
     constructor(props) {
         super(props);
         this.state = {data, editingKey: '', searchText: ""};
@@ -77,7 +80,7 @@ class EditableTable extends React.Component {
         this.setState({editingKey: ''});
     };
 
-    save(form, key) {
+    save = async (form, key) => {
         const onSave = this.props.onSave;
         form.validateFields((error, row) => {
             if (error) {
@@ -87,7 +90,7 @@ class EditableTable extends React.Component {
             const index = newData.findIndex(item => key === item.key);
 
             const item = newData[index];
-            console.log(item, row);
+            onSave(row, item)
             newData.splice(index, 1, {
                 ...item,
                 ...row,
@@ -95,6 +98,7 @@ class EditableTable extends React.Component {
             this.setState({data: newData, editingKey: ''});
 
         });
+
     }
 
     edit(key) {
@@ -113,11 +117,14 @@ class EditableTable extends React.Component {
     getColumnSearchProps = dataIndex => ({
         filterDropdown: (option) => {
             const {setSelectedKeys, selectedKeys, confirm, clearFilters} = option;
-            console.log(option);
+            let dataSource = this.props.dataSource;
+            dataSource = dataSource.map(function (item) {
+                return item[dataIndex];
+            })
             return <div style={{padding: 8}}>
                 <div>
                     <CoreAutoComplete
-                        dataSource={[1,2,3]}
+                        dataSource={deDuplicate(dataSource)}
                         value={selectedKeys[0]}
                         onChange={val => setSelectedKeys([val])}
                     />
@@ -127,15 +134,16 @@ class EditableTable extends React.Component {
             </div>
         },
         onFilter: (value, record) => {
-            console.log(dataIndex, value, record);
             return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
         }
     })
-    mapPropsToColumns=(columns)=>{
-        return columns = this.columns.map(col => {
-            let ret=col;
+    mapPropsToColumns = (columns) => {
+        let isEditable = false;
+        columns = columns.map(col => {
+            let ret = col;
             if (col.editable) {
-                ret= {
+                isEditable = true
+                ret = {
                     ...ret,
                     onCell: record => ({
                         record,
@@ -146,50 +154,26 @@ class EditableTable extends React.Component {
                     }),
                 };
             }
-
-
+            if (col.canSearch) {
+                ret = {
+                    ...ret,
+                    ...this.getColumnSearchProps(col.dataIndex)
+                }
+            }
+            return ret;
         });
+        columns.push(this.operationColumn());
+        return columns;
     }
-    render() {
-        const components = {
-            body: {
-                cell: EditableCell,
-            },
-        };
-        this.columns = [
-            {
-                title: 'name',
-                dataIndex: 'name',
-                width: '25%',
-                editable: true,
-                onFilter: (value, record) => {
-                    console.log(value, record);
-                    return true
-                },
-                filters: [{text: 123, value: "123"}],
-                ...this.getColumnSearchProps("name")
-
-            },
-            {
-                title: 'age',
-                dataIndex: 'age',
-                width: '15%',
-                editable: true,
-            },
-            {
-                title: 'address',
-                dataIndex: 'address',
-                width: '40%',
-                editable: true,
-            },
-            {
-                title: 'operation',
-                dataIndex: 'operation',
-                render: (text, record) => {
-                    const {editingKey} = this.state;
-                    const editable = this.isEditing(record);
-                    return editable ? (
-                        <span>
+    operationColumn = () => {
+        return {
+            title: 'operation',
+            dataIndex: 'operation',
+            render: (text, record) => {
+                const {editingKey} = this.state;
+                const editable = this.isEditing(record);
+                return editable ? (
+                    <span>
               <EditableContext.Consumer>
                 {form => (
                     <a
@@ -204,27 +188,20 @@ class EditableTable extends React.Component {
                 <a>Cancel</a>
               </Popconfirm>
             </span>) : (<a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-                            Edit
-                        </a>);
-                },
+                    Edit
+                </a>);
             },
-        ];
-        const columns = this.columns.map(col => {
-            if (!col.editable) {
-                return col;
-            }
-            return {
-                ...col,
-                onCell: record => ({
-                    record,
-                    inputType: col.dataIndex === 'age' ? 'number' : 'text',
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    editing: this.isEditing(record),
-                }),
-            };
-        });
+        }
+    }
 
+    render() {
+        const components = {
+            body: {
+                cell: EditableCell,
+            },
+        };
+        let columns = this.props.columns;
+        columns = this.mapPropsToColumns(columns);
         return (
             <EditableContext.Provider value={this.props.form}>
                 <Table

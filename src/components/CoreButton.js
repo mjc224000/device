@@ -9,7 +9,6 @@ export function CoreButton(props) {
         icon="search"
         size="small"
         style={{
-
             width: 90, marginRight: 8,
             background: "linear-gradient(60deg, rgb(171, 71, 188), rgb(142, 36, 170))",
             color: "white",
