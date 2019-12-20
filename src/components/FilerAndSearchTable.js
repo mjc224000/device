@@ -2,6 +2,7 @@ import React from 'react';
 import {Table, Button} from 'antd';
 import {array} from 'prop-types'
 import {duplicateList} from "../utils";
+
 /***
  * example
  *  const columns = [
@@ -47,7 +48,6 @@ export class FilerAndSearchTable extends React.Component {
     }
 
     handleChange = (pagination, filters, sorter) => {
-        console.log('Various parameters', pagination, "filters:", filters, "sorter:", sorter);
         this.setState({
             filteredInfo: filters,
             sortedInfo: sorter,
