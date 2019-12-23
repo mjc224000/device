@@ -16,7 +16,7 @@ const SiderStyle = {
     boxShadow: "5px 0px 4px 4px",
     backgroundColor: "black",
     height: "100vh",
-    position:"relative"
+    position: "relative"
 }
 const LiStyle = {
     color: "white",
@@ -38,15 +38,26 @@ const ButtonStyle = {
 }
 
 export class CoreSider extends React.Component {
-    state = {currentName: "/statistic"}
+
+    componentDidMount() {
+        if (!window.location.href.includes('/')) {
+            this.props.history.push("/statistic");
+        }
+
+    }
+
     handleRouteChange = (name) => {
         this.setState({currentName: name})
         this.props.history.push(name);
     }
 
+    isActive(path) {
+        return window.location.href.includes(path) ? 'active' : '';
+    }
+
     render() {
 
-        const {currentName} = this.state;
+        let isActive = this.isActive;
         return (
             <Sider width={250} {...this.props} style={SiderStyle}>
                 <div className={"side-head"}>
@@ -56,36 +67,36 @@ export class CoreSider extends React.Component {
                 <ul className={"sidebar-li"} style={LiStyle}>
                     <li>
                         <Button style={ButtonStyle}
-                                className={"/statistic" === currentName ? "active" : ""}
+                                className={isActive("/statistic")}
                                 onClick={() => this.handleRouteChange('/statistic')}>
                             <FormatAlignLeftIcon/><span> 统计 </span>
                         </Button>
                     </li>
                     <li>
                         <Button style={ButtonStyle}
-                                className={"/rc" === currentName ? "active" : ""}
+                                className={isActive('/rc')}
                                 onClick={() => this.handleRouteChange('/rc')}>
                             <DateRangeIcon></DateRangeIcon> <span>耗材管理 </span>
                         </Button>
                     </li>
                     <li>
                         <Button style={ButtonStyle}
-                                className={"/list" === currentName ? "active" : ""}
+                                className={isActive('/list')}
                                 onClick={() => this.handleRouteChange('/list')}>
                             <PrintIcon> </PrintIcon> <span>设备清单</span>
                         </Button>
                     </li>
                     <li><Button style={ButtonStyle}
-                                className={"/transfer" === currentName ? "active" : ""}
+                                className={isActive("/transfer")}
                                 onClick={() => this.handleRouteChange('/transfer')}>
                         <CachedIcon/><span>设备转移 </span>
                     </Button></li>
                     <li><Button style={ButtonStyle}
-                                className={"/basic" === currentName ? "active" : ""}
+                                className={isActive("/basic")}
                                 onClick={() => this.handleRouteChange('/basic/computer')}>
-                    <MenuBookIcon></MenuBookIcon> <span>基础信息</span> </Button></li>
+                        <MenuBookIcon></MenuBookIcon> <span>基础信息</span> </Button></li>
                     <li><Button style={ButtonStyle}
-                                className={"/tft" === currentName ? "active" : ""}
+                                className={isActive("/tft")}
                                 onClick={() => this.handleRouteChange('/tft')}>
                         <ImportContactsIcon/> <span>领用记录</span> </Button></li>
                 </ul>
