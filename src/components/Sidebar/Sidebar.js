@@ -43,7 +43,6 @@ export class CoreSider extends React.Component {
         if (!window.location.href.includes('/')) {
             this.props.history.push("/statistic");
         }
-
     }
 
     handleRouteChange = (name) => {
