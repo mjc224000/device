@@ -23,7 +23,6 @@ export async function getDeviceList(dispatch) {
 export function modifiedList( row, key) {
     console.log( row,key,'in modified')
     return function (dispatch) {
-
         dispatch({
             type: MODIFIED,
             payload: {row,key}
