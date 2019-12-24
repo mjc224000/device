@@ -7,15 +7,7 @@ import Button from "@material-ui/core/Button";
 
 import {deDuplicate} from "../utils";
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-    data.push({
-        key: i.toString(),
-        name: `Edrward ${i}`,
-        age: 32,
-        address: `London Park no. ${i}`,
-    });
-}
+
 const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
@@ -70,7 +62,11 @@ class EditableTable extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {data, editingKey: '', searchText: ""};
+        this.state = { editingKey: '', searchText: ""};
+
+    }
+
+    componentDidMount() {
 
     }
 
@@ -86,16 +82,16 @@ class EditableTable extends React.Component {
             if (error) {
                 return;
             }
-            const newData = [...this.state.data];
+            const newData = [...this.props.dataSource];
+            onSave(row,key);
             const index = newData.findIndex(item => key === item.key);
-
             const item = newData[index];
-            onSave(row, item)
+
             newData.splice(index, 1, {
                 ...item,
                 ...row,
             });
-            this.setState({data: newData, editingKey: ''});
+            this.setState({editingKey: ''});
 
         });
 
@@ -205,7 +201,7 @@ class EditableTable extends React.Component {
         return (
             <EditableContext.Provider value={this.props.form}>
                 <Table
-                    dataSource={this.state.data}
+                    dataSource={this.props.dataSource}
                     components={components}
                     columns={columns}
                     rowClassName="editable-row"

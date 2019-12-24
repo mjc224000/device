@@ -1,20 +1,20 @@
 import React from "react";
-
+import {connect} from 'react-redux';
 import {CorePanel} from "../components/CorePanel";
 import {CoreSearchAndEditTable} from "../components/CoreSearchAndEditTable";
+import {getOperations} from "../ado";
+import {modifiedList} from "../redux/actionCreators";
 
-const data = [];
-for (let i = 0; i < 100; i++) {
-    data.push({
-        key: i.toString(),
-        name: `Edrward ${i}`,
-        age: 32,
-        address: `London Park no. ${i}`,
-    });
+function mapStateToProps(state) {
+    return {
+        list: state.deviceList
+    }
 }
 
-function onSave(props) {
-    console.log('outer', props)
+function mapDispatchToProps(dispatch) {
+    return {
+        modifiedList: (row, key) => dispatch(modifiedList(row, key))
+    }
 }
 
 let columns = [
@@ -38,14 +38,27 @@ let columns = [
         editable: true,
     },
 ];
+let deviceColumn = [
+    {
+        title: "设备编号",
+        dataIndex: "device_code",
+        key: "device_code",
+        width: "10%",
+        editable: true,
+        canSearch: true
+    }
+]
 
 export class SendAndReceiving extends React.Component {
-    render() {
-        return (
 
+    render() {
+        console.log(this.props.modifiedList, 'this.props.modifiedList');
+
+        return (
             <div style={{width: "80%", margin: " 100px auto"}}>
-                <CorePanel desc={"aaaa"} title={"ttttt"}>
-                    <CoreSearchAndEditTable dataSource={data} onSave={onSave} columns={columns}/>
+                <CorePanel desc={"设备信息列表"} title={"列表"}>
+                    <CoreSearchAndEditTable dataSource={this.props.list} onSave={this.props.modifiedList}
+                                            columns={deviceColumn}/>
                 </CorePanel>
             </div>
 
@@ -53,3 +66,5 @@ export class SendAndReceiving extends React.Component {
         )
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendAndReceiving);

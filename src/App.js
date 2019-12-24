@@ -8,7 +8,7 @@ import Transfer from "./layouts/Transfer";
 import {Layout} from "antd";
 import {CoreSider} from './components/Sidebar/Sidebar';
 import BasicInformation from "./layouts/BasicInformation";
-import {SendAndReceiving} from "./layouts/SendandReceiving";
+import SendAndReceiving from "./layouts/SendandReceiving";
 import {TransferTable} from './layouts/TransferTable'
 import 'antd/dist/antd.min.css'
 import {Provider} from 'react-redux';
