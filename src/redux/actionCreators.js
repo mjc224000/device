@@ -1,6 +1,7 @@
 import {GET_LIST, MODIFIED} from "./actionTypes";
 import {fetchList} from "../ado";
 import {withMobileDialog} from "@material-ui/core";
+import {putModified} from "../ado";
 
 export async function getDeviceList(dispatch) {
     let res = await fetchList();
@@ -20,13 +21,9 @@ export async function getDeviceList(dispatch) {
     })
 }
 
-export function modifiedList( row, key) {
-    console.log( row,key,'in modified')
-    return function (dispatch) {
-        dispatch({
-            type: MODIFIED,
-            payload: {row,key}
-        })
-    }
+export function modifiedList(row, key) {
+     return async function (dispatch) {
+     let ret= await putModified(row,key);
 
+    }
 }
