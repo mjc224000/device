@@ -7,8 +7,9 @@ function myThunk() {
         return function (action) {
             if (typeof action !== 'object') {
                 action(dispatch)
+            }else {
+                dispatch(action);
             }
-
         };
     }
 }

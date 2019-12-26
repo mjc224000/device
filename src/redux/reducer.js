@@ -15,7 +15,8 @@ export function reducer(state = initState, action) {
             let deviceList = state.deviceList;
             const index = deviceList.findIndex(item => key === item.key);
             const item = deviceList[index];
-            deviceList.splice(index, 1, {...item, ...row})
+            deviceList.splice(index, 1, {...item, ...row});
+            return Object.assign({}, state, {deviceList});
         }
         default :
             return state
