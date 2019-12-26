@@ -74,15 +74,13 @@ let deviceColumn = [
         title: '用户名',
         dataIndex: 'User.name',
         key: 'User.name',
-        editable: true,
-        canSearch: true
+
     },
     {
         title: "领用部门",
         dataIndex: "User.department.name",
         key: "User.department.name",
-        editable: true,
-        canSearch: true
+
     },
     {
         title: '备注',

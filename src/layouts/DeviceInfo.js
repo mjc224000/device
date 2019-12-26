@@ -6,26 +6,9 @@ import Input from "antd/lib/input";
 import {Button} from "@material-ui/core";
 import {CoreButton} from "../components/CoreButton";
 import {addDevice} from "../ado";
+import {notification} from "antd";
 
-const initState = {
-    class: "打印机",
-    brand: "",
-    "manufacturing_date": "",
-    "hard_driver": '',
-    "memory": '',
-    "cpu": "",
-    "ip_addr": "",
-    net_attr: "",
-    "operation_system": "",
-    "remark": "",
-    mac: "",
-    "manufacturer_code": "",
-    monetary: "",
-    buyer: ""
-}
-
-/*
-function Device(props) {
+/*function Device(props) {
     const {Option} = Select;
     let list = [...props.list];
 
@@ -74,9 +57,7 @@ function Device(props) {
                    onChange={(e) => onChange("remark", e.target.value)}/>
         </div>
     </div>
-}
-*/
-
+}*/
 function Computer(props) {
     const {onChange, operation_system, ip_addr, net_attr, cpu, memory, hard_driver, list, mac} = props;
     const g = duplicateList(list);
@@ -108,34 +89,29 @@ function Computer(props) {
     )
 }
 
-/*
-export class DeviceInfo extends React.Component {
-    render() {
-        return (<div>
 
-        </div>)
-    }
-}
-*/
+let initState = {
+    classVal: '打印机',
+    brand: "",
+    type: "",
+    "monetary": "",
+    device_code: "",
+    manufacturing_date: "",
+    remark: "",
+    operation_system: "",
+    ip_addr: "",
+    net_attr: "",
+    mac: "",
+    cpu: "",
+    memory: "",
+    hard_driver: "",
+    manufacturer_code:""
+};
+
 export class DeviceInfo extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            classVal: '打印机',
-            brand: "",
-            type: "",
-            "monetary": "",
-            device_code: "",
-            manufacturing_date: "",
-            remark: "",
-            operation_system: "",
-            ip_addr: "",
-            net_attr: "",
-            mac: "",
-            cpu: "",
-            memory: "",
-            hard_driver: ""
-        }
+        this.state = initState;
     }
 
     handleChange = (key, val) => {
@@ -143,7 +119,13 @@ export class DeviceInfo extends React.Component {
     }
     handleSubmit = async () => {
         let ret = await addDevice(this.state);
-        console.log(ret)
+        if (ret.data['msg'] === 'ok') {
+            notification.open({message: "提交成功"});
+            this.setState(initState);
+        } else {
+            notification.open({message: "提交失败"});
+        }
+
     }
 
     render() {
@@ -153,7 +135,7 @@ export class DeviceInfo extends React.Component {
             buyer, device_code,
             manufacturing_date,
             remark, operation_system,
-            ip_addr, net_attr, mac, cpu, memory, hard_driver
+            ip_addr, net_attr, mac, cpu, memory, hard_driver,manufacturer_code
         } = this.state
         const {list} = this.props;
         return <>
@@ -177,6 +159,7 @@ export class DeviceInfo extends React.Component {
                                       onChange={(val) => this.handleChange("brand", val)}/>
                     <CoreAutoComplete dataSource={list.map(item => item['type'])}
                                       value={type}
+                                      placeholder={'型号'}
                                       onChange={(val) => this.handleChange('type', val)}
                     />
                     <Input style={{width: "150px", flex: "0 0 150px"}} type={"number"} name={"monetary"}
@@ -192,6 +175,9 @@ export class DeviceInfo extends React.Component {
                                       }}/>
                     <Input name={"device_code"} value={device_code} placeholder={"设备编码"}
                            onChange={(e) => this.handleChange("device_code", e.target.value)}/>
+                    <Input name={'manufacturer_code'} placeholder={'厂家编码'}
+                           value={manufacturer_code}
+                           onChange={e => this.handleChange("manufacturer_code", e.target.value)}/>
                 </div>
                 <div className={"input-row"} style={{
                     display: "flex"
