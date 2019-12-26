@@ -13,31 +13,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        modifiedList: (row, key) => dispatch(modifiedList(row, key))
+        modifiedList: async (row, key) => {
+            let fn = modifiedList(row, key);
+            return await fn(dispatch);
+        }
     }
 }
 
-let columns = [
-    {
-        title: 'name',
-        dataIndex: 'name',
-        width: '25%',
-        editable: true,
-        canSearch: true,
-    },
-    {
-        title: 'age',
-        dataIndex: 'age',
-        width: '15%',
-        editable: true,
-    },
-    {
-        title: 'address',
-        dataIndex: 'address',
-        width: '40%',
-        editable: true,
-    },
-];
+
 let deviceColumn = [
     {
         title: "设备编号",
@@ -46,14 +29,80 @@ let deviceColumn = [
         width: "10%",
         editable: true,
         canSearch: true
+    },
+    {
+        title: "类型",
+        dataIndex: "class",
+        key: "class",
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: "购买单位",
+        dataIndex: "buyer",
+        key: "buyer",
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: "品牌",
+        dataIndex: "brand",
+        key: "brand",
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: '型号',
+        dataIndex: 'type',
+        key: 'type',
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: '厂家编码',
+        dataIndex: 'manufacturer_code',
+        key: 'manufacturer_code',
+        editable: true,
+        canSearch: true
+    }, {
+        title: '购买金额',
+        dataIndex: 'monetary',
+        key: 'monetary',
+        editable: true,
+        canSearch: true
+    }, {
+        title: '用户名',
+        dataIndex: 'User.name',
+        key: 'User.name',
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: "领用部门",
+        dataIndex: "User.department.name",
+        key: "User.department.name",
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        editable: true,
+        canSearch: true
+    },
+    {
+        title: '状态',
+        dataIndex: 'state',
+        key: 'state',
+        editable: true,
+        canSearch: true
     }
 ]
 
 export class SendAndReceiving extends React.Component {
 
     render() {
-        console.log(this.props.modifiedList, 'this.props.modifiedList');
-
         return (
             <div style={{width: "80%", margin: " 100px auto"}}>
                 <CorePanel desc={"设备信息列表"} title={"列表"}>
