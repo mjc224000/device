@@ -4,7 +4,6 @@ import {FilerAndSearchTable} from "./FilerAndSearchTable";
 import {array, func} from "prop-types";
 import {CoreAutoComplete} from "./CoreAutoComplete";
 import Button from "@material-ui/core/Button";
-
 import {deDuplicate} from "../utils";
 
 
@@ -29,6 +28,7 @@ class EditableCell extends React.Component {
             children,
             ...restProps
         } = this.props;
+
         return (
             <td {...restProps}>
                 {editing ? (
@@ -36,7 +36,7 @@ class EditableCell extends React.Component {
                         {getFieldDecorator(dataIndex, {
                             rules: [
                                 {
-                                    required: true,
+                                    /*required: true,*/
                                     message: `Please Input ${title}!`,
                                 },
                             ],
@@ -62,14 +62,9 @@ class EditableTable extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { editingKey: '', searchText: ""};
+        this.state = {editingKey: '', searchText: ""};
 
     }
-
-    componentDidMount() {
-
-    }
-
     isEditing = record => record.key === this.state.editingKey;
 
     cancel = () => {
@@ -77,22 +72,14 @@ class EditableTable extends React.Component {
     };
 
     save = async (form, key) => {
-        const onSave = this.props.onSave;
-        form.validateFields((error, row) => {
+
+        form.validateFields(async (error, row) => {
             if (error) {
                 return;
             }
-            const newData = [...this.props.dataSource];
-            onSave(row,key);
-            const index = newData.findIndex(item => key === item.key);
-            const item = newData[index];
-
-            newData.splice(index, 1, {
-                ...item,
-                ...row,
-            });
-            this.setState({editingKey: ''});
-
+            const onSave = this.props.onSave;
+            await onSave(row, key);
+            this.setState({editingKey: ''})
         });
 
     }
@@ -134,11 +121,10 @@ class EditableTable extends React.Component {
         }
     })
     mapPropsToColumns = (columns) => {
-        let isEditable = false;
+
         columns = columns.map(col => {
             let ret = col;
             if (col.editable) {
-                isEditable = true
                 ret = {
                     ...ret,
                     onCell: record => ({
@@ -180,11 +166,11 @@ class EditableTable extends React.Component {
                     </a>
                 )}
               </EditableContext.Consumer>
-              <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-                <a>Cancel</a>
+              <Popconfirm title="确认取消吗?" onConfirm={() => this.cancel(record.key)}>
+                <a>取消</a>
               </Popconfirm>
             </span>) : (<a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
-                    Edit
+                    编辑
                 </a>);
             },
         }
@@ -197,6 +183,7 @@ class EditableTable extends React.Component {
             },
         };
         let columns = this.props.columns;
+
         columns = this.mapPropsToColumns(columns);
         return (
             <EditableContext.Provider value={this.props.form}>

@@ -98,6 +98,7 @@ let initState = {
     device_code: "",
     manufacturing_date: "",
     remark: "",
+    manufacturer_code:"",
     operation_system: "",
     ip_addr: "",
     net_attr: "",
@@ -105,7 +106,7 @@ let initState = {
     cpu: "",
     memory: "",
     hard_driver: "",
-    manufacturer_code:""
+
 };
 
 export class DeviceInfo extends React.Component {

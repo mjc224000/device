@@ -13,16 +13,26 @@ import {gFilter} from '../utils'
 import {CoreLink} from "../components/CoreLink";
 import {LocDepartInfo} from "./LocDepartInfo";
 import {DeviceInfo} from "./DeviceInfo";
+import {AddItem} from "../redux/actionCreators";
 
 const mapStateToProps = function (state) {
 
     return {list: state.deviceList};
+}
+const mapDispatchToProps = function (dispatch) {
+    return {
+        addItem: async item => {
+          AddItem(item)
+            dispatch()
+        }
+    }
 }
 
 class BasicInformation extends React.Component {
     constructor(props) {
         super(props);
     }
+
     state = this.initState
     handleValueChange = (key, val) => {
 
@@ -70,7 +80,7 @@ class BasicInformation extends React.Component {
                 <Switch>
                     <Route path={'/basic/user'} component={() => <UserInfo list={this.props.list}/>}/>
                     <Route path={'/basic/department'} component={LocDepartInfo}/>
-                    <Route path={'/basic/computer'} component={()=><DeviceInfo list={this.props.list}/>}/>
+                    <Route path={'/basic/computer'} component={() => <DeviceInfo list={this.props.list}/>}/>
                 </Switch>
             </>
         )

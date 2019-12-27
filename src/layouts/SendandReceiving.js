@@ -15,6 +15,8 @@ function mapDispatchToProps(dispatch) {
     return {
         modifiedList: async (row, key) => {
             let fn = modifiedList(row, key);
+            console.log(await dispatch(fn),'fn');
+
             return await fn(dispatch);
         }
     }

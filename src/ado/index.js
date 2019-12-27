@@ -22,6 +22,7 @@ request.interceptors.request.use(req => {
 
 
 export function fetchList() {
+   request.get('/api/device').then(console.log);
     return request.get('/api/device')
 }
 
@@ -76,4 +77,8 @@ export function postLocations(loc) {
 
 export function getToken(passWord) {
     return request.get('/api/auth', {params: {passWord}})
+}
+
+export function putModified(row, key) {
+    return request.put('/api/device/modified', {row, key})
 }

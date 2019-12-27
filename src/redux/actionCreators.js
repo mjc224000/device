@@ -1,9 +1,10 @@
-import {GET_LIST, MODIFIED} from "./actionTypes";
+import {GET_LIST, MODIFIED, ADD_DEVICE} from "./actionTypes";
 import React from 'react';
 import {fetchList} from "../ado";
 import {withMobileDialog} from "@material-ui/core";
 import {putModified} from "../ado";
 import {notification} from "antd";
+import {addDevice} from "../ado";
 
 export async function getDeviceList(dispatch) {
     let res = await fetchList();
@@ -24,13 +25,30 @@ export async function getDeviceList(dispatch) {
 
 export function modifiedList(row, key) {
     return async function (dispatch) {
-
         let ret = await putModified(row, key);
         if (ret.data['msg'] === 'ok') {
             dispatch({type: MODIFIED, payload: {row, key}});
-            notification.open({message:"修改成功"});
-        }else {
-            notification.open({message:"修改失败"});
+            notification.open({message: "修改成功"});
+            return true;
+        } else {
+            notification.open({message: "修改失败"});
+            return false;
+        }
+
+    }
+}
+
+export function AddItem(payload) {
+    return async function (dispatch) {
+        try {
+            let ret = await addDevice({...payload});
+            if (ret.data['msg'] === 'ok') {
+                dispatch({type: ADD_DEVICE, payload});
+                return true
+            }
+
+        } catch (e) {
+            return false
         }
 
     }

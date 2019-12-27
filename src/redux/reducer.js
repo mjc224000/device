@@ -1,4 +1,4 @@
-import {GET_LIST, MODIFIED} from "./actionTypes";
+import {GET_LIST, MODIFIED,ADD_DEVICE} from "./actionTypes";
 
 const initState = {
     deviceList: []
@@ -17,6 +17,12 @@ export function reducer(state = initState, action) {
             const item = deviceList[index];
             deviceList.splice(index, 1, {...item, ...row});
             return Object.assign({}, state, {deviceList});
+        }
+        case ADD_DEVICE:{
+            let item=action.payload;
+            let deviceList=state.deviceList;
+            deviceList.push(item);
+            return Object.assign({},state,{deviceList})
         }
         default :
             return state
