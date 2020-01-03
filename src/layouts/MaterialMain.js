@@ -1,20 +1,28 @@
 import React from 'react';
 import {CoreForm} from "../components/CoreForm";
 import {CoreAutoComplete} from "../components/CoreAutoComplete";
-import {CoreSearchAndEditTable} from "../components/CoreSearchAndEditTable";
 import {fetchMaterial, postMaterial, putMaterial} from "../ado";
 import {validator} from "../utils";
 import {notification} from "antd";
+import MaterialTable from "./MaterialTable";
+import {getMaterialList} from "../redux/actionCreators";
+import {connect} from 'react-redux';
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getMaterialList: () => dispatch(getMaterialList)
+    }
+}
 
 let initState = {
     name: "",
     type: '',
     unit: "",
     class: "",
-    brand: ""
+    brand: "",
 }
 
-export class MaterialMain extends React.Component {
+class MaterialMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = initState;
@@ -34,6 +42,7 @@ export class MaterialMain extends React.Component {
         }
         let ret = await postMaterial(this.state);
         notification.open({message: ret.data.msg});
+        this.props.getMaterialList();
         this.setState({...initState});
     }
     handleValueChange = (key, val) => {
@@ -41,48 +50,11 @@ export class MaterialMain extends React.Component {
     }
 
     render() {
-        let {name, type, brand, unit,  dataSource} = this.state;
-        dataSource = dataSource || [];
-        dataSource.forEach(function (item) {
-            item['key'] = item['id'];
-        })
+        let {name, type, brand, unit, dataSource} = this.state;
+
+
         const classVal = this.state['class'];
-        const materialColumns = [
-            {
-                title: "用途",
-                dataIndex: "name",
-                key: "name",
-                editable: true
-            },
-            {
-                title: "类型",
-                dataSource: "class",
-                key: "class",
-                editable: true
-            },
-            {
-                title: "品牌",
-                dataIndex: "brand",
-                key: "brand",
-                editable: true
-            },
-            {
-                title: "型号",
-                dataIndex: "type",
-                key: "type",
-                editable: true
-            },
-            {
-                title:"单位",
-                dataIndex:"unit",
-                key:"unit",
-                editable:true
-            },
-            {
-                title:"数量",
-                dataIndex:"number"
-            }
-        ]
+        dataSource = dataSource || [];
         return <div style={{display: "flex", width: "100%", marginTop: "100px", justifyContent: "space-around"}}>
             <div style={{flex: "0 0 45%",}}>
                 <CoreForm title={"耗材"}
@@ -125,7 +97,9 @@ export class MaterialMain extends React.Component {
                     </div>
                 </CoreForm></div>
 
-            <div><CoreSearchAndEditTable dataSource={dataSource} columns={materialColumns}/></div>
+            <div><MaterialTable dataSource={dataSource}/></div>
         </div>
     }
 }
+
+export default connect(null, mapDispatchToProps)(MaterialMain)

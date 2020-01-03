@@ -3,12 +3,7 @@ import {Link, Switch, Route} from "react-router-dom";
 import {Breadcrumb} from "antd";
 import {Recipients} from "./MaterialRecipients";
 import {Purchases} from "./MaterialPurchases";
-import {CoreSearchAndEditTable} from "../components/CoreSearchAndEditTable";
-import {CoreForm} from "../components/CoreForm";
-import {CoreAutoComplete} from "../components/CoreAutoComplete";
-import {MaterialMain} from "./MaterialMain";
-import {deDuplicate} from "../utils";
-
+import MaterialMain from "./MaterialMain";
 
 
 export class Material extends React.Component {
@@ -28,7 +23,6 @@ export class Material extends React.Component {
         }
         return isActive ? 'active' : ''
     }
-
 
 
     render() {

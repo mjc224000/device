@@ -19,8 +19,7 @@ import {connect} from 'react-redux';
 import {Modal, Input} from "antd";
 import {getToken} from "./ado";
 import {checkToken} from "./utils";
-import {Recipients} from "./layouts/MaterialRecipients";
-import {Purchases} from "./layouts/MaterialPurchases";
+
 
 const {Header, Footer, Content} = Layout;
 

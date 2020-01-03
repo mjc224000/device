@@ -1,7 +1,8 @@
-import {GET_LIST, MODIFIED,ADD_DEVICE} from "./actionTypes";
+import {GET_LIST, MODIFIED, ADD_DEVICE, GET_MATERIAL_LIST} from "./actionTypes";
 
 const initState = {
-    deviceList: []
+    deviceList: [],
+    materialList: []
 }
 
 export function reducer(state = initState, action) {
@@ -18,11 +19,15 @@ export function reducer(state = initState, action) {
             deviceList.splice(index, 1, {...item, ...row});
             return Object.assign({}, state, {deviceList});
         }
-        case ADD_DEVICE:{
-            let item=action.payload;
-            let deviceList=state.deviceList;
+        case ADD_DEVICE: {
+            let item = action.payload;
+            let deviceList = state.deviceList;
             deviceList.push(item);
-            return Object.assign({},state,{deviceList})
+            return Object.assign({}, state, {deviceList})
+        }
+        case GET_MATERIAL_LIST: {
+            let materialList = action.payload;
+            return Object.assign({}, state, {materialList});
         }
         default :
             return state
