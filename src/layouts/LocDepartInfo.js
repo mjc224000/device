@@ -28,20 +28,19 @@ export class LocDepartInfo extends React.Component {
     }
 
     handleSubmit = async () => {
-        const {loc,depart}=this.state;
-        let ret1,ret2;
-        if(loc){
-           ret1= await postLocations(loc);
-           ret1=ret1.data;
+        const {loc, depart} = this.state;
+        let ret1, ret2;
+        if (loc) {
+            ret1 = await postLocations(loc);
+            ret1 = ret1.data;
         }
-        if(depart)
-        {
-          ret2=  await postDepartments(depart);
-          ret2=ret2.data;
+        if (depart) {
+            ret2 = await postDepartments(depart);
+            ret2 = ret2.data;
         }
-           if(ret1['msg']==="ok"||ret2['msg']==="ok"){
-               notification.open({message:"ok",description:"成功"})
-           }
+        if (ret1['msg'] === "ok" || ret2['msg'] === "ok") {
+            notification.open({message: "ok", description: "成功"})
+        }
 
     }
 
@@ -67,9 +66,9 @@ export class LocDepartInfo extends React.Component {
                         value={depart}
                         dataSource={departs.map(item => item['name'])}
                         onChange={val => this.handleChange('depart', val)}
-                        onSubmit={this.handleSubmit}
                     />
                 </div>
+                <button onClick={this.handleSubmit}></button>
             </CoreForm>
         </div>)
     }

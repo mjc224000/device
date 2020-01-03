@@ -10,6 +10,7 @@ import {CoreSider} from './components/Sidebar/Sidebar';
 import BasicInformation from "./layouts/BasicInformation";
 import SendAndReceiving from "./layouts/SendandReceiving";
 import {TransferTable} from './layouts/TransferTable'
+import {Material} from "./layouts/Material";
 import 'antd/dist/antd.min.css'
 import {Provider} from 'react-redux';
 import {store} from "./redux/store";
@@ -18,6 +19,8 @@ import {connect} from 'react-redux';
 import {Modal, Input} from "antd";
 import {getToken} from "./ado";
 import {checkToken} from "./utils";
+import {Recipients} from "./layouts/MaterialRecipients";
+import {Purchases} from "./layouts/MaterialPurchases";
 
 const {Header, Footer, Content} = Layout;
 
@@ -68,6 +71,7 @@ function App(props) {
                         <Route path={"/basic"} component={BasicInformation}/>
                         <Route path={"/rc"} component={SendAndReceiving}/>
                         <Route path={"/tft"} component={TransferTable}/>
+                        <Route path={'/material'}   component={Material}/>
                         <Route path={"/"} component={Statistic}/>
                     </Switch>
                 </Content>
@@ -77,7 +81,8 @@ function App(props) {
                    onOk={handleSubmit}
             >
                 <div style={{display: "flex"}}>
-                    密码：<Input style={{flexBasis: "80%"}} type={'password'} value={passWd} onChange={e => onPassWdChange(e.target.value)}/>
+                    密码：<Input style={{flexBasis: "80%"}} type={'password'} value={passWd}
+                              onChange={e => onPassWdChange(e.target.value)}/>
                 </div>
             </Modal>
         </Layout>

@@ -120,8 +120,7 @@ class EditableTable extends React.Component {
             return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
         }
     })
-    mapPropsToColumns = (columns) => {
-
+    mapPropsToColumns = (columns=[]) => {
         columns = columns.map(col => {
             let ret = col;
             if (col.editable) {
